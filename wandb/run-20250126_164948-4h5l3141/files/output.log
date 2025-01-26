@@ -1,0 +1,27 @@
+INFO:src.models.train:Starting training with config: {'epochs': 100, 'batch_size': 64, 'learning_rate': 0.0001, 'patience': 15, 'min_delta': 0.0001, 'max_grad_norm': 1.0, 'validation_split': 0.2, 'use_cache': True, 'wandb_project': 'club-recommender', 'model_name': 'club_recommender'}
+INFO:src.models.train:Loading dataset...
+Loading cached club embeddings...
+Loaded 163 club embeddings from cache
+
+Loading cached embeddings for 2000 samples...
+✓ Loaded cached embeddings
+Traceback (most recent call last):
+  File "/Users/benjamingaskin/Documents/nScribe/anchor/main.py", line 161, in <module>
+    main()
+  File "/Users/benjamingaskin/Documents/nScribe/anchor/main.py", line 152, in main
+    run_train(config)
+  File "/Users/benjamingaskin/Documents/nScribe/anchor/main.py", line 98, in run_train
+    train_model(
+  File "/Users/benjamingaskin/Documents/nScribe/anchor/src/models/train.py", line 396, in train_model
+    train_sampler = SubsetRandomSampler(train_indices)
+NameError: name 'SubsetRandomSampler' is not defined
+Traceback (most recent call last):
+  File "/Users/benjamingaskin/Documents/nScribe/anchor/main.py", line 161, in <module>
+    main()
+  File "/Users/benjamingaskin/Documents/nScribe/anchor/main.py", line 152, in main
+    run_train(config)
+  File "/Users/benjamingaskin/Documents/nScribe/anchor/main.py", line 98, in run_train
+    train_model(
+  File "/Users/benjamingaskin/Documents/nScribe/anchor/src/models/train.py", line 396, in train_model
+    train_sampler = SubsetRandomSampler(train_indices)
+NameError: name 'SubsetRandomSampler' is not defined

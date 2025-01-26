@@ -1,0 +1,359 @@
+INFO:src.models.train:Starting training with config: {'epochs': 100, 'batch_size': 64, 'learning_rate': 0.0001, 'patience': 15, 'min_delta': 0.0001, 'max_grad_norm': 1.0, 'validation_split': 0.2, 'use_cache': True, 'wandb_project': 'club-recommender', 'model_name': 'club_recommender'}
+INFO:src.models.train:Loading dataset...
+Loading cached club embeddings...
+Loaded 163 club embeddings from cache
+
+Loading cached embeddings for 2000 samples...
+✓ Loaded cached embeddings
+INFO:src.models.train:Using device: mps (N/A)
+Model initialized with: categorical_size=14, text_embedding_size=384
+INFO:src.models.train:Training on mps
+INFO:src.models.train:Dataset size: 2000 samples
+INFO:src.models.train:Training samples: 1600
+INFO:src.models.train:Validation samples: 400
+Epoch 1/100 [Train]: 100%|████████████████████████████| 25/25 [00:01<00:00, 20.84it/s, loss=0.9845]
+Epoch 1/100 [Val]: 100%|████████████████████████████████| 7/7 [00:00<00:00, 62.94it/s, loss=0.9672]
+INFO:src.models.train:Epoch 1/100 - Train Loss: 0.991985 - Val Loss: 0.970438 - LR: 4.26e-06
+INFO:src.models.train:Saved best model to models/club_recommender_20250126_165504.pt
+Epoch 2/100 [Train]: 100%|████████████████████████████| 25/25 [00:00<00:00, 36.23it/s, loss=0.9752]
+Epoch 2/100 [Val]: 100%|███████████████████████████████| 7/7 [00:00<00:00, 187.85it/s, loss=0.9549]
+INFO:src.models.train:Epoch 2/100 - Train Loss: 0.977651 - Val Loss: 0.954671 - LR: 5.05e-06
+INFO:src.models.train:Saved best model to models/club_recommender_20250126_165505.pt
+Epoch 3/100 [Train]: 100%|████████████████████████████| 25/25 [00:00<00:00, 35.29it/s, loss=0.9520]
+Epoch 3/100 [Val]: 100%|███████████████████████████████| 7/7 [00:00<00:00, 188.53it/s, loss=0.9383]
+INFO:src.models.train:Epoch 3/100 - Train Loss: 0.961127 - Val Loss: 0.935980 - LR: 6.36e-06
+INFO:src.models.train:Saved best model to models/club_recommender_20250126_165506.pt
+Epoch 4/100 [Train]: 100%|████████████████████████████| 25/25 [00:00<00:00, 37.48it/s, loss=0.9326]
+Epoch 4/100 [Val]: 100%|███████████████████████████████| 7/7 [00:00<00:00, 179.06it/s, loss=0.9328]
+INFO:src.models.train:Epoch 4/100 - Train Loss: 0.942104 - Val Loss: 0.915833 - LR: 8.16e-06
+INFO:src.models.train:Saved best model to models/club_recommender_20250126_165507.pt
+Epoch 5/100 [Train]: 100%|████████████████████████████| 25/25 [00:00<00:00, 37.54it/s, loss=0.8999]
+Epoch 5/100 [Val]: 100%|███████████████████████████████| 7/7 [00:00<00:00, 170.80it/s, loss=0.8746]
+INFO:src.models.train:Epoch 5/100 - Train Loss: 0.915923 - Val Loss: 0.882437 - LR: 1.04e-05
+INFO:src.models.train:Saved best model to models/club_recommender_20250126_165508.pt
+Epoch 6/100 [Train]: 100%|████████████████████████████| 25/25 [00:00<00:00, 37.06it/s, loss=0.8770]
+Epoch 6/100 [Val]: 100%|███████████████████████████████| 7/7 [00:00<00:00, 185.22it/s, loss=0.8460]
+INFO:src.models.train:Epoch 6/100 - Train Loss: 0.886857 - Val Loss: 0.847633 - LR: 1.32e-05
+INFO:src.models.train:Saved best model to models/club_recommender_20250126_165509.pt
+Epoch 7/100 [Train]: 100%|████████████████████████████| 25/25 [00:00<00:00, 36.56it/s, loss=0.8362]
+Epoch 7/100 [Val]: 100%|███████████████████████████████| 7/7 [00:00<00:00, 195.38it/s, loss=0.8039]
+INFO:src.models.train:Epoch 7/100 - Train Loss: 0.851093 - Val Loss: 0.806728 - LR: 1.64e-05
+INFO:src.models.train:Saved best model to models/club_recommender_20250126_165510.pt
+Epoch 8/100 [Train]: 100%|████████████████████████████| 25/25 [00:00<00:00, 36.73it/s, loss=0.7903]
+Epoch 8/100 [Val]: 100%|███████████████████████████████| 7/7 [00:00<00:00, 174.54it/s, loss=0.7543]
+INFO:src.models.train:Epoch 8/100 - Train Loss: 0.809434 - Val Loss: 0.762484 - LR: 1.99e-05
+INFO:src.models.train:Saved best model to models/club_recommender_20250126_165510.pt
+Epoch 9/100 [Train]: 100%|████████████████████████████| 25/25 [00:00<00:00, 34.95it/s, loss=0.7561]
+Epoch 9/100 [Val]: 100%|███████████████████████████████| 7/7 [00:00<00:00, 124.65it/s, loss=0.7148]
+INFO:src.models.train:Epoch 9/100 - Train Loss: 0.767679 - Val Loss: 0.718641 - LR: 2.38e-05
+INFO:src.models.train:Saved best model to models/club_recommender_20250126_165511.pt
+Epoch 10/100 [Train]: 100%|███████████████████████████| 25/25 [00:00<00:00, 33.47it/s, loss=0.7080]
+Epoch 10/100 [Val]: 100%|██████████████████████████████| 7/7 [00:00<00:00, 183.39it/s, loss=0.6949]
+INFO:src.models.train:Epoch 10/100 - Train Loss: 0.726658 - Val Loss: 0.681257 - LR: 2.81e-05
+INFO:src.models.train:Saved best model to models/club_recommender_20250126_165512.pt
+Epoch 11/100 [Train]: 100%|███████████████████████████| 25/25 [00:00<00:00, 35.62it/s, loss=0.6810]
+Epoch 11/100 [Val]: 100%|██████████████████████████████| 7/7 [00:00<00:00, 181.22it/s, loss=0.6466]
+INFO:src.models.train:Epoch 11/100 - Train Loss: 0.689338 - Val Loss: 0.643609 - LR: 3.25e-05
+INFO:src.models.train:Saved best model to models/club_recommender_20250126_165513.pt
+Epoch 12/100 [Train]: 100%|███████████████████████████| 25/25 [00:00<00:00, 36.37it/s, loss=0.6361]
+Epoch 12/100 [Val]: 100%|██████████████████████████████| 7/7 [00:00<00:00, 157.99it/s, loss=0.6025]
+INFO:src.models.train:Epoch 12/100 - Train Loss: 0.656209 - Val Loss: 0.610900 - LR: 3.72e-05
+INFO:src.models.train:Saved best model to models/club_recommender_20250126_165514.pt
+Epoch 13/100 [Train]: 100%|███████████████████████████| 25/25 [00:00<00:00, 35.84it/s, loss=0.6180]
+Epoch 13/100 [Val]: 100%|██████████████████████████████| 7/7 [00:00<00:00, 169.00it/s, loss=0.5547]
+INFO:src.models.train:Epoch 13/100 - Train Loss: 0.626227 - Val Loss: 0.581316 - LR: 4.21e-05
+INFO:src.models.train:Saved best model to models/club_recommender_20250126_165515.pt
+Epoch 14/100 [Train]: 100%|███████████████████████████| 25/25 [00:00<00:00, 36.29it/s, loss=0.5884]
+Epoch 14/100 [Val]: 100%|██████████████████████████████| 7/7 [00:00<00:00, 168.76it/s, loss=0.5602]
+INFO:src.models.train:Epoch 14/100 - Train Loss: 0.600381 - Val Loss: 0.560730 - LR: 4.71e-05
+INFO:src.models.train:Saved best model to models/club_recommender_20250126_165516.pt
+Epoch 15/100 [Train]: 100%|███████████████████████████| 25/25 [00:00<00:00, 35.80it/s, loss=0.5630]
+Epoch 15/100 [Val]: 100%|██████████████████████████████| 7/7 [00:00<00:00, 183.59it/s, loss=0.5410]
+INFO:src.models.train:Epoch 15/100 - Train Loss: 0.576797 - Val Loss: 0.540144 - LR: 5.21e-05
+INFO:src.models.train:Saved best model to models/club_recommender_20250126_165517.pt
+Epoch 16/100 [Train]: 100%|███████████████████████████| 25/25 [00:00<00:00, 32.96it/s, loss=0.5530]
+Epoch 16/100 [Val]: 100%|██████████████████████████████| 7/7 [00:00<00:00, 184.69it/s, loss=0.5289]
+INFO:src.models.train:Epoch 16/100 - Train Loss: 0.555344 - Val Loss: 0.522945 - LR: 5.71e-05
+INFO:src.models.train:Saved best model to models/club_recommender_20250126_165518.pt
+Epoch 17/100 [Train]: 100%|███████████████████████████| 25/25 [00:00<00:00, 34.86it/s, loss=0.5356]
+Epoch 17/100 [Val]: 100%|██████████████████████████████| 7/7 [00:00<00:00, 189.24it/s, loss=0.5135]
+INFO:src.models.train:Epoch 17/100 - Train Loss: 0.535506 - Val Loss: 0.507690 - LR: 6.21e-05
+INFO:src.models.train:Saved best model to models/club_recommender_20250126_165519.pt
+Epoch 18/100 [Train]: 100%|███████████████████████████| 25/25 [00:00<00:00, 35.19it/s, loss=0.5113]
+Epoch 18/100 [Val]: 100%|██████████████████████████████| 7/7 [00:00<00:00, 180.76it/s, loss=0.4973]
+INFO:src.models.train:Epoch 18/100 - Train Loss: 0.517966 - Val Loss: 0.494071 - LR: 6.69e-05
+INFO:src.models.train:Saved best model to models/club_recommender_20250126_165519.pt
+Epoch 19/100 [Train]: 100%|███████████████████████████| 25/25 [00:00<00:00, 35.46it/s, loss=0.4965]
+Epoch 19/100 [Val]: 100%|██████████████████████████████| 7/7 [00:00<00:00, 182.36it/s, loss=0.4984]
+INFO:src.models.train:Epoch 19/100 - Train Loss: 0.502781 - Val Loss: 0.485345 - LR: 7.16e-05
+INFO:src.models.train:Saved best model to models/club_recommender_20250126_165520.pt
+Epoch 20/100 [Train]: 100%|███████████████████████████| 25/25 [00:00<00:00, 29.64it/s, loss=0.5009]
+Epoch 20/100 [Val]: 100%|██████████████████████████████| 7/7 [00:00<00:00, 156.49it/s, loss=0.4749]
+INFO:src.models.train:Epoch 20/100 - Train Loss: 0.490859 - Val Loss: 0.474984 - LR: 7.61e-05
+INFO:src.models.train:Saved best model to models/club_recommender_20250126_165521.pt
+Epoch 21/100 [Train]: 100%|███████████████████████████| 25/25 [00:00<00:00, 27.45it/s, loss=0.4595]
+Epoch 21/100 [Val]: 100%|██████████████████████████████| 7/7 [00:00<00:00, 180.18it/s, loss=0.4682]
+INFO:src.models.train:Epoch 21/100 - Train Loss: 0.479313 - Val Loss: 0.468579 - LR: 8.03e-05
+INFO:src.models.train:Saved best model to models/club_recommender_20250126_165522.pt
+Epoch 22/100 [Train]: 100%|███████████████████████████| 25/25 [00:00<00:00, 32.61it/s, loss=0.4748]
+Epoch 22/100 [Val]: 100%|██████████████████████████████| 7/7 [00:00<00:00, 182.86it/s, loss=0.4642]
+INFO:src.models.train:Epoch 22/100 - Train Loss: 0.470557 - Val Loss: 0.463152 - LR: 8.42e-05
+INFO:src.models.train:Saved best model to models/club_recommender_20250126_165523.pt
+Epoch 23/100 [Train]: 100%|███████████████████████████| 25/25 [00:00<00:00, 32.28it/s, loss=0.4685]
+Epoch 23/100 [Val]: 100%|██████████████████████████████| 7/7 [00:00<00:00, 176.17it/s, loss=0.4625]
+INFO:src.models.train:Epoch 23/100 - Train Loss: 0.461427 - Val Loss: 0.458735 - LR: 8.78e-05
+INFO:src.models.train:Saved best model to models/club_recommender_20250126_165524.pt
+Epoch 24/100 [Train]: 100%|███████████████████████████| 25/25 [00:00<00:00, 33.96it/s, loss=0.4533]
+Epoch 24/100 [Val]: 100%|██████████████████████████████| 7/7 [00:00<00:00, 183.47it/s, loss=0.4386]
+INFO:src.models.train:Epoch 24/100 - Train Loss: 0.456371 - Val Loss: 0.452563 - LR: 9.09e-05
+INFO:src.models.train:Saved best model to models/club_recommender_20250126_165525.pt
+Epoch 25/100 [Train]: 100%|███████████████████████████| 25/25 [00:00<00:00, 36.21it/s, loss=0.4429]
+Epoch 25/100 [Val]: 100%|██████████████████████████████| 7/7 [00:00<00:00, 188.08it/s, loss=0.4617]
+INFO:src.models.train:Epoch 25/100 - Train Loss: 0.450386 - Val Loss: 0.451804 - LR: 9.37e-05
+INFO:src.models.train:Saved best model to models/club_recommender_20250126_165526.pt
+Epoch 26/100 [Train]: 100%|███████████████████████████| 25/25 [00:00<00:00, 36.27it/s, loss=0.4463]
+Epoch 26/100 [Val]: 100%|██████████████████████████████| 7/7 [00:00<00:00, 132.11it/s, loss=0.4517]
+INFO:src.models.train:Epoch 26/100 - Train Loss: 0.445650 - Val Loss: 0.448227 - LR: 9.59e-05
+INFO:src.models.train:Saved best model to models/club_recommender_20250126_165527.pt
+Epoch 27/100 [Train]: 100%|███████████████████████████| 25/25 [00:00<00:00, 33.18it/s, loss=0.4497]
+Epoch 27/100 [Val]: 100%|██████████████████████████████| 7/7 [00:00<00:00, 182.28it/s, loss=0.4512]
+INFO:src.models.train:Epoch 27/100 - Train Loss: 0.441158 - Val Loss: 0.446319 - LR: 9.77e-05
+INFO:src.models.train:Saved best model to models/club_recommender_20250126_165528.pt
+Epoch 28/100 [Train]: 100%|███████████████████████████| 25/25 [00:00<00:00, 36.83it/s, loss=0.4158]
+Epoch 28/100 [Val]: 100%|██████████████████████████████| 7/7 [00:00<00:00, 194.89it/s, loss=0.4618]
+INFO:src.models.train:Epoch 28/100 - Train Loss: 0.437347 - Val Loss: 0.444548 - LR: 9.90e-05
+INFO:src.models.train:Saved best model to models/club_recommender_20250126_165529.pt
+Epoch 29/100 [Train]: 100%|███████████████████████████| 25/25 [00:00<00:00, 36.28it/s, loss=0.4421]
+Epoch 29/100 [Val]: 100%|██████████████████████████████| 7/7 [00:00<00:00, 189.03it/s, loss=0.4259]
+INFO:src.models.train:Epoch 29/100 - Train Loss: 0.434150 - Val Loss: 0.439061 - LR: 9.98e-05
+INFO:src.models.train:Saved best model to models/club_recommender_20250126_165530.pt
+Epoch 30/100 [Train]: 100%|███████████████████████████| 25/25 [00:00<00:00, 35.92it/s, loss=0.4268]
+Epoch 30/100 [Val]: 100%|██████████████████████████████| 7/7 [00:00<00:00, 196.03it/s, loss=0.4498]
+INFO:src.models.train:Epoch 30/100 - Train Loss: 0.430553 - Val Loss: 0.440209 - LR: 1.00e-04
+Epoch 31/100 [Train]: 100%|███████████████████████████| 25/25 [00:00<00:00, 37.16it/s, loss=0.4304]
+Epoch 31/100 [Val]: 100%|██████████████████████████████| 7/7 [00:00<00:00, 175.69it/s, loss=0.4891]
+INFO:src.models.train:Epoch 31/100 - Train Loss: 0.427499 - Val Loss: 0.443357 - LR: 9.99e-05
+Epoch 32/100 [Train]: 100%|███████████████████████████| 25/25 [00:00<00:00, 38.08it/s, loss=0.4381]
+Epoch 32/100 [Val]: 100%|██████████████████████████████| 7/7 [00:00<00:00, 194.93it/s, loss=0.4436]
+INFO:src.models.train:Epoch 32/100 - Train Loss: 0.424222 - Val Loss: 0.437391 - LR: 9.98e-05
+INFO:src.models.train:Saved best model to models/club_recommender_20250126_165532.pt
+Epoch 33/100 [Train]: 100%|███████████████████████████| 25/25 [00:00<00:00, 37.02it/s, loss=0.4186]
+Epoch 33/100 [Val]: 100%|██████████████████████████████| 7/7 [00:00<00:00, 187.12it/s, loss=0.3921]
+INFO:src.models.train:Epoch 33/100 - Train Loss: 0.421323 - Val Loss: 0.430463 - LR: 9.95e-05
+INFO:src.models.train:Saved best model to models/club_recommender_20250126_165533.pt
+Epoch 34/100 [Train]: 100%|███████████████████████████| 25/25 [00:00<00:00, 35.69it/s, loss=0.4212]
+Epoch 34/100 [Val]: 100%|██████████████████████████████| 7/7 [00:00<00:00, 193.05it/s, loss=0.4618]
+INFO:src.models.train:Epoch 34/100 - Train Loss: 0.419002 - Val Loss: 0.436991 - LR: 9.92e-05
+Epoch 35/100 [Train]: 100%|███████████████████████████| 25/25 [00:00<00:00, 37.18it/s, loss=0.4123]
+Epoch 35/100 [Val]: 100%|██████████████████████████████| 7/7 [00:00<00:00, 195.49it/s, loss=0.4319]
+INFO:src.models.train:Epoch 35/100 - Train Loss: 0.416498 - Val Loss: 0.432762 - LR: 9.87e-05
+Epoch 36/100 [Train]: 100%|███████████████████████████| 25/25 [00:00<00:00, 37.42it/s, loss=0.4193]
+Epoch 36/100 [Val]: 100%|██████████████████████████████| 7/7 [00:00<00:00, 191.60it/s, loss=0.4522]
+INFO:src.models.train:Epoch 36/100 - Train Loss: 0.413270 - Val Loss: 0.434289 - LR: 9.82e-05
+Epoch 37/100 [Train]: 100%|███████████████████████████| 25/25 [00:00<00:00, 37.45it/s, loss=0.4274]
+Epoch 37/100 [Val]: 100%|██████████████████████████████| 7/7 [00:00<00:00, 186.47it/s, loss=0.4193]
+INFO:src.models.train:Epoch 37/100 - Train Loss: 0.412323 - Val Loss: 0.429906 - LR: 9.75e-05
+INFO:src.models.train:Saved best model to models/club_recommender_20250126_165536.pt
+Epoch 38/100 [Train]: 100%|███████████████████████████| 25/25 [00:00<00:00, 34.10it/s, loss=0.3914]
+Epoch 38/100 [Val]: 100%|██████████████████████████████| 7/7 [00:00<00:00, 198.50it/s, loss=0.4252]
+INFO:src.models.train:Epoch 38/100 - Train Loss: 0.408337 - Val Loss: 0.429765 - LR: 9.68e-05
+INFO:src.models.train:Saved best model to models/club_recommender_20250126_165537.pt
+Epoch 39/100 [Train]: 100%|███████████████████████████| 25/25 [00:00<00:00, 31.40it/s, loss=0.4068]
+Epoch 39/100 [Val]: 100%|███████████████████████████████| 7/7 [00:00<00:00, 50.81it/s, loss=0.4372]
+INFO:src.models.train:Epoch 39/100 - Train Loss: 0.407025 - Val Loss: 0.429791 - LR: 9.59e-05
+Epoch 40/100 [Train]: 100%|███████████████████████████| 25/25 [00:00<00:00, 32.03it/s, loss=0.4056]
+Epoch 40/100 [Val]: 100%|██████████████████████████████| 7/7 [00:00<00:00, 166.14it/s, loss=0.4158]
+INFO:src.models.train:Epoch 40/100 - Train Loss: 0.404027 - Val Loss: 0.426350 - LR: 9.50e-05
+INFO:src.models.train:Saved best model to models/club_recommender_20250126_165539.pt
+Epoch 41/100 [Train]: 100%|███████████████████████████| 25/25 [00:00<00:00, 32.08it/s, loss=0.4170]
+Epoch 41/100 [Val]: 100%|██████████████████████████████| 7/7 [00:00<00:00, 187.09it/s, loss=0.4120]
+INFO:src.models.train:Epoch 41/100 - Train Loss: 0.401472 - Val Loss: 0.425607 - LR: 9.40e-05
+INFO:src.models.train:Saved best model to models/club_recommender_20250126_165540.pt
+Epoch 42/100 [Train]: 100%|███████████████████████████| 25/25 [00:00<00:00, 32.48it/s, loss=0.3998]
+Epoch 42/100 [Val]: 100%|██████████████████████████████| 7/7 [00:00<00:00, 185.87it/s, loss=0.4244]
+INFO:src.models.train:Epoch 42/100 - Train Loss: 0.398425 - Val Loss: 0.426535 - LR: 9.29e-05
+Epoch 43/100 [Train]: 100%|███████████████████████████| 25/25 [00:00<00:00, 35.46it/s, loss=0.3919]
+Epoch 43/100 [Val]: 100%|██████████████████████████████| 7/7 [00:00<00:00, 186.54it/s, loss=0.4270]
+INFO:src.models.train:Epoch 43/100 - Train Loss: 0.396298 - Val Loss: 0.425985 - LR: 9.17e-05
+Epoch 44/100 [Train]: 100%|███████████████████████████| 25/25 [00:00<00:00, 34.33it/s, loss=0.3859]
+Epoch 44/100 [Val]: 100%|██████████████████████████████| 7/7 [00:00<00:00, 195.78it/s, loss=0.4419]
+INFO:src.models.train:Epoch 44/100 - Train Loss: 0.393584 - Val Loss: 0.426663 - LR: 9.04e-05
+Epoch 45/100 [Train]: 100%|███████████████████████████| 25/25 [00:00<00:00, 37.01it/s, loss=0.3907]
+Epoch 45/100 [Val]: 100%|██████████████████████████████| 7/7 [00:00<00:00, 188.65it/s, loss=0.4197]
+INFO:src.models.train:Epoch 45/100 - Train Loss: 0.390494 - Val Loss: 0.423705 - LR: 8.90e-05
+INFO:src.models.train:Saved best model to models/club_recommender_20250126_165543.pt
+Epoch 46/100 [Train]: 100%|███████████████████████████| 25/25 [00:00<00:00, 32.16it/s, loss=0.3920]
+Epoch 46/100 [Val]: 100%|██████████████████████████████| 7/7 [00:00<00:00, 173.98it/s, loss=0.4455]
+INFO:src.models.train:Epoch 46/100 - Train Loss: 0.388350 - Val Loss: 0.426691 - LR: 8.76e-05
+Epoch 47/100 [Train]: 100%|███████████████████████████| 25/25 [00:00<00:00, 34.64it/s, loss=0.3933]
+Epoch 47/100 [Val]: 100%|██████████████████████████████| 7/7 [00:00<00:00, 188.34it/s, loss=0.4304]
+INFO:src.models.train:Epoch 47/100 - Train Loss: 0.386247 - Val Loss: 0.424085 - LR: 8.61e-05
+Epoch 48/100 [Train]: 100%|███████████████████████████| 25/25 [00:00<00:00, 35.10it/s, loss=0.3724]
+Epoch 48/100 [Val]: 100%|███████████████████████████████| 7/7 [00:00<00:00, 92.72it/s, loss=0.3898]
+INFO:src.models.train:Epoch 48/100 - Train Loss: 0.383568 - Val Loss: 0.419570 - LR: 8.45e-05
+INFO:src.models.train:Saved best model to models/club_recommender_20250126_165546.pt
+Epoch 49/100 [Train]: 100%|███████████████████████████| 25/25 [00:00<00:00, 34.44it/s, loss=0.3734]
+Epoch 49/100 [Val]: 100%|██████████████████████████████| 7/7 [00:00<00:00, 159.80it/s, loss=0.4283]
+INFO:src.models.train:Epoch 49/100 - Train Loss: 0.381726 - Val Loss: 0.422265 - LR: 8.28e-05
+Epoch 50/100 [Train]: 100%|███████████████████████████| 25/25 [00:00<00:00, 34.68it/s, loss=0.3673]
+Epoch 50/100 [Val]: 100%|██████████████████████████████| 7/7 [00:00<00:00, 172.21it/s, loss=0.4273]
+INFO:src.models.train:Epoch 50/100 - Train Loss: 0.378522 - Val Loss: 0.421999 - LR: 8.11e-05
+Epoch 51/100 [Train]: 100%|███████████████████████████| 25/25 [00:00<00:00, 34.54it/s, loss=0.3681]
+Epoch 51/100 [Val]: 100%|██████████████████████████████| 7/7 [00:00<00:00, 175.69it/s, loss=0.4499]
+INFO:src.models.train:Epoch 51/100 - Train Loss: 0.375432 - Val Loss: 0.423927 - LR: 7.93e-05
+Epoch 52/100 [Train]: 100%|███████████████████████████| 25/25 [00:00<00:00, 35.23it/s, loss=0.3875]
+Epoch 52/100 [Val]: 100%|██████████████████████████████| 7/7 [00:00<00:00, 189.30it/s, loss=0.4471]
+INFO:src.models.train:Epoch 52/100 - Train Loss: 0.374191 - Val Loss: 0.422624 - LR: 7.75e-05
+Epoch 53/100 [Train]: 100%|███████████████████████████| 25/25 [00:00<00:00, 37.63it/s, loss=0.3619]
+Epoch 53/100 [Val]: 100%|██████████████████████████████| 7/7 [00:00<00:00, 185.91it/s, loss=0.4940]
+INFO:src.models.train:Epoch 53/100 - Train Loss: 0.371397 - Val Loss: 0.427240 - LR: 7.56e-05
+Epoch 54/100 [Train]: 100%|███████████████████████████| 25/25 [00:00<00:00, 37.76it/s, loss=0.3730]
+Epoch 54/100 [Val]: 100%|██████████████████████████████| 7/7 [00:00<00:00, 198.37it/s, loss=0.3869]
+INFO:src.models.train:Epoch 54/100 - Train Loss: 0.369527 - Val Loss: 0.414657 - LR: 7.36e-05
+INFO:src.models.train:Saved best model to models/club_recommender_20250126_165550.pt
+Epoch 55/100 [Train]: 100%|███████████████████████████| 25/25 [00:00<00:00, 36.67it/s, loss=0.3773]
+Epoch 55/100 [Val]: 100%|██████████████████████████████| 7/7 [00:00<00:00, 194.63it/s, loss=0.3926]
+INFO:src.models.train:Epoch 55/100 - Train Loss: 0.366598 - Val Loss: 0.415822 - LR: 7.16e-05
+Epoch 56/100 [Train]: 100%|███████████████████████████| 25/25 [00:00<00:00, 33.99it/s, loss=0.3407]
+Epoch 56/100 [Val]: 100%|██████████████████████████████| 7/7 [00:00<00:00, 145.27it/s, loss=0.4210]
+INFO:src.models.train:Epoch 56/100 - Train Loss: 0.364776 - Val Loss: 0.417951 - LR: 6.96e-05
+Epoch 57/100 [Train]: 100%|███████████████████████████| 25/25 [00:00<00:00, 32.23it/s, loss=0.3730]
+Epoch 57/100 [Val]: 100%|██████████████████████████████| 7/7 [00:00<00:00, 159.08it/s, loss=0.4274]
+INFO:src.models.train:Epoch 57/100 - Train Loss: 0.362112 - Val Loss: 0.418919 - LR: 6.75e-05
+Epoch 58/100 [Train]: 100%|███████████████████████████| 25/25 [00:00<00:00, 32.71it/s, loss=0.3723]
+Epoch 58/100 [Val]: 100%|██████████████████████████████| 7/7 [00:00<00:00, 132.65it/s, loss=0.4512]
+INFO:src.models.train:Epoch 58/100 - Train Loss: 0.361222 - Val Loss: 0.420588 - LR: 6.54e-05
+Epoch 59/100 [Train]: 100%|███████████████████████████| 25/25 [00:00<00:00, 35.96it/s, loss=0.3511]
+Epoch 59/100 [Val]: 100%|██████████████████████████████| 7/7 [00:00<00:00, 191.50it/s, loss=0.4026]
+INFO:src.models.train:Epoch 59/100 - Train Loss: 0.358541 - Val Loss: 0.415285 - LR: 6.32e-05
+Epoch 60/100 [Train]: 100%|███████████████████████████| 25/25 [00:00<00:00, 31.80it/s, loss=0.3426]
+Epoch 60/100 [Val]: 100%|██████████████████████████████| 7/7 [00:00<00:00, 158.78it/s, loss=0.4082]
+INFO:src.models.train:Epoch 60/100 - Train Loss: 0.356470 - Val Loss: 0.415891 - LR: 6.10e-05
+Epoch 61/100 [Train]: 100%|███████████████████████████| 25/25 [00:00<00:00, 37.07it/s, loss=0.3456]
+Epoch 61/100 [Val]: 100%|██████████████████████████████| 7/7 [00:00<00:00, 171.52it/s, loss=0.4066]
+INFO:src.models.train:Epoch 61/100 - Train Loss: 0.354790 - Val Loss: 0.414621 - LR: 5.88e-05
+Epoch 62/100 [Train]: 100%|███████████████████████████| 25/25 [00:00<00:00, 29.65it/s, loss=0.3588]
+Epoch 62/100 [Val]: 100%|██████████████████████████████| 7/7 [00:00<00:00, 184.32it/s, loss=0.3648]
+INFO:src.models.train:Epoch 62/100 - Train Loss: 0.352094 - Val Loss: 0.409957 - LR: 5.66e-05
+INFO:src.models.train:Saved best model to models/club_recommender_20250126_165557.pt
+Epoch 63/100 [Train]: 100%|███████████████████████████| 25/25 [00:00<00:00, 31.19it/s, loss=0.3532]
+Epoch 63/100 [Val]: 100%|██████████████████████████████| 7/7 [00:00<00:00, 131.03it/s, loss=0.4162]
+INFO:src.models.train:Epoch 63/100 - Train Loss: 0.350079 - Val Loss: 0.415113 - LR: 5.44e-05
+Epoch 64/100 [Train]: 100%|███████████████████████████| 25/25 [00:00<00:00, 32.49it/s, loss=0.3426]
+Epoch 64/100 [Val]: 100%|██████████████████████████████| 7/7 [00:00<00:00, 157.30it/s, loss=0.4334]
+INFO:src.models.train:Epoch 64/100 - Train Loss: 0.348843 - Val Loss: 0.416385 - LR: 5.22e-05
+Epoch 65/100 [Train]: 100%|███████████████████████████| 25/25 [00:00<00:00, 34.00it/s, loss=0.3545]
+Epoch 65/100 [Val]: 100%|██████████████████████████████| 7/7 [00:00<00:00, 191.62it/s, loss=0.4088]
+INFO:src.models.train:Epoch 65/100 - Train Loss: 0.345861 - Val Loss: 0.413231 - LR: 4.99e-05
+Epoch 66/100 [Train]: 100%|███████████████████████████| 25/25 [00:00<00:00, 38.00it/s, loss=0.3495]
+Epoch 66/100 [Val]: 100%|██████████████████████████████| 7/7 [00:00<00:00, 177.19it/s, loss=0.3912]
+INFO:src.models.train:Epoch 66/100 - Train Loss: 0.345019 - Val Loss: 0.411633 - LR: 4.77e-05
+Epoch 67/100 [Train]: 100%|███████████████████████████| 25/25 [00:00<00:00, 31.05it/s, loss=0.3557]
+Epoch 67/100 [Val]: 100%|██████████████████████████████| 7/7 [00:00<00:00, 182.61it/s, loss=0.3969]
+INFO:src.models.train:Epoch 67/100 - Train Loss: 0.342715 - Val Loss: 0.411195 - LR: 4.54e-05
+Epoch 68/100 [Train]: 100%|███████████████████████████| 25/25 [00:00<00:00, 36.99it/s, loss=0.3527]
+Epoch 68/100 [Val]: 100%|██████████████████████████████| 7/7 [00:00<00:00, 185.62it/s, loss=0.4458]
+INFO:src.models.train:Epoch 68/100 - Train Loss: 0.341342 - Val Loss: 0.416657 - LR: 4.32e-05
+Epoch 69/100 [Train]: 100%|███████████████████████████| 25/25 [00:00<00:00, 37.64it/s, loss=0.3485]
+Epoch 69/100 [Val]: 100%|██████████████████████████████| 7/7 [00:00<00:00, 188.63it/s, loss=0.3818]
+INFO:src.models.train:Epoch 69/100 - Train Loss: 0.340399 - Val Loss: 0.408807 - LR: 4.10e-05
+INFO:src.models.train:Saved best model to models/club_recommender_20250126_165602.pt
+Epoch 70/100 [Train]: 100%|███████████████████████████| 25/25 [00:00<00:00, 37.16it/s, loss=0.3293]
+Epoch 70/100 [Val]: 100%|██████████████████████████████| 7/7 [00:00<00:00, 198.77it/s, loss=0.3739]
+INFO:src.models.train:Epoch 70/100 - Train Loss: 0.338330 - Val Loss: 0.407909 - LR: 3.88e-05
+INFO:src.models.train:Saved best model to models/club_recommender_20250126_165603.pt
+Epoch 71/100 [Train]: 100%|███████████████████████████| 25/25 [00:00<00:00, 36.79it/s, loss=0.3562]
+Epoch 71/100 [Val]: 100%|██████████████████████████████| 7/7 [00:00<00:00, 168.13it/s, loss=0.4368]
+INFO:src.models.train:Epoch 71/100 - Train Loss: 0.337928 - Val Loss: 0.414051 - LR: 3.66e-05
+Epoch 72/100 [Train]: 100%|███████████████████████████| 25/25 [00:00<00:00, 35.38it/s, loss=0.3339]
+Epoch 72/100 [Val]: 100%|██████████████████████████████| 7/7 [00:00<00:00, 155.98it/s, loss=0.3636]
+INFO:src.models.train:Epoch 72/100 - Train Loss: 0.336078 - Val Loss: 0.406856 - LR: 3.45e-05
+INFO:src.models.train:Saved best model to models/club_recommender_20250126_165605.pt
+Epoch 73/100 [Train]: 100%|███████████████████████████| 25/25 [00:00<00:00, 35.06it/s, loss=0.3183]
+Epoch 73/100 [Val]: 100%|██████████████████████████████| 7/7 [00:00<00:00, 183.51it/s, loss=0.3770]
+INFO:src.models.train:Epoch 73/100 - Train Loss: 0.333830 - Val Loss: 0.407924 - LR: 3.23e-05
+Epoch 74/100 [Train]: 100%|███████████████████████████| 25/25 [00:00<00:00, 37.13it/s, loss=0.3288]
+Epoch 74/100 [Val]: 100%|██████████████████████████████| 7/7 [00:00<00:00, 198.80it/s, loss=0.4138]
+INFO:src.models.train:Epoch 74/100 - Train Loss: 0.335237 - Val Loss: 0.412118 - LR: 3.03e-05
+Epoch 75/100 [Train]: 100%|███████████████████████████| 25/25 [00:00<00:00, 36.41it/s, loss=0.3575]
+Epoch 75/100 [Val]: 100%|██████████████████████████████| 7/7 [00:00<00:00, 161.57it/s, loss=0.4113]
+INFO:src.models.train:Epoch 75/100 - Train Loss: 0.333899 - Val Loss: 0.411107 - LR: 2.82e-05
+Epoch 76/100 [Train]: 100%|███████████████████████████| 25/25 [00:00<00:00, 36.02it/s, loss=0.3217]
+Epoch 76/100 [Val]: 100%|██████████████████████████████| 7/7 [00:00<00:00, 193.59it/s, loss=0.3879]
+INFO:src.models.train:Epoch 76/100 - Train Loss: 0.332804 - Val Loss: 0.407714 - LR: 2.62e-05
+Epoch 77/100 [Train]: 100%|███████████████████████████| 25/25 [00:00<00:00, 36.44it/s, loss=0.3283]
+Epoch 77/100 [Val]: 100%|██████████████████████████████| 7/7 [00:00<00:00, 175.61it/s, loss=0.4040]
+INFO:src.models.train:Epoch 77/100 - Train Loss: 0.330214 - Val Loss: 0.409044 - LR: 2.43e-05
+Epoch 78/100 [Train]: 100%|███████████████████████████| 25/25 [00:00<00:00, 35.69it/s, loss=0.3337]
+Epoch 78/100 [Val]: 100%|██████████████████████████████| 7/7 [00:00<00:00, 191.60it/s, loss=0.4312]
+INFO:src.models.train:Epoch 78/100 - Train Loss: 0.329859 - Val Loss: 0.412584 - LR: 2.24e-05
+Epoch 79/100 [Train]: 100%|███████████████████████████| 25/25 [00:00<00:00, 36.14it/s, loss=0.3350]
+Epoch 79/100 [Val]: 100%|██████████████████████████████| 7/7 [00:00<00:00, 185.06it/s, loss=0.3711]
+INFO:src.models.train:Epoch 79/100 - Train Loss: 0.329648 - Val Loss: 0.406139 - LR: 2.05e-05
+INFO:src.models.train:Saved best model to models/club_recommender_20250126_165610.pt
+Epoch 80/100 [Train]: 100%|███████████████████████████| 25/25 [00:00<00:00, 33.79it/s, loss=0.3348]
+Epoch 80/100 [Val]: 100%|██████████████████████████████| 7/7 [00:00<00:00, 161.91it/s, loss=0.4098]
+INFO:src.models.train:Epoch 80/100 - Train Loss: 0.330047 - Val Loss: 0.410156 - LR: 1.88e-05
+Epoch 81/100 [Train]: 100%|███████████████████████████| 25/25 [00:00<00:00, 36.43it/s, loss=0.3366]
+Epoch 81/100 [Val]: 100%|██████████████████████████████| 7/7 [00:00<00:00, 202.56it/s, loss=0.4104]
+INFO:src.models.train:Epoch 81/100 - Train Loss: 0.327550 - Val Loss: 0.409896 - LR: 1.70e-05
+Epoch 82/100 [Train]: 100%|███████████████████████████| 25/25 [00:00<00:00, 26.67it/s, loss=0.3272]
+Epoch 82/100 [Val]: 100%|██████████████████████████████| 7/7 [00:00<00:00, 167.85it/s, loss=0.3769]
+INFO:src.models.train:Epoch 82/100 - Train Loss: 0.326931 - Val Loss: 0.406009 - LR: 1.54e-05
+INFO:src.models.train:Saved best model to models/club_recommender_20250126_165613.pt
+Epoch 83/100 [Train]: 100%|███████████████████████████| 25/25 [00:00<00:00, 35.61it/s, loss=0.3191]
+Epoch 83/100 [Val]: 100%|██████████████████████████████| 7/7 [00:00<00:00, 185.77it/s, loss=0.4238]
+INFO:src.models.train:Epoch 83/100 - Train Loss: 0.326893 - Val Loss: 0.410742 - LR: 1.38e-05
+Epoch 84/100 [Train]: 100%|███████████████████████████| 25/25 [00:00<00:00, 35.80it/s, loss=0.3282]
+Epoch 84/100 [Val]: 100%|██████████████████████████████| 7/7 [00:00<00:00, 164.99it/s, loss=0.4084]
+INFO:src.models.train:Epoch 84/100 - Train Loss: 0.326026 - Val Loss: 0.408583 - LR: 1.23e-05
+Epoch 85/100 [Train]: 100%|███████████████████████████| 25/25 [00:00<00:00, 36.21it/s, loss=0.3235]
+Epoch 85/100 [Val]: 100%|██████████████████████████████| 7/7 [00:00<00:00, 164.43it/s, loss=0.4041]
+INFO:src.models.train:Epoch 85/100 - Train Loss: 0.324395 - Val Loss: 0.408250 - LR: 1.09e-05
+Epoch 86/100 [Train]: 100%|███████████████████████████| 25/25 [00:00<00:00, 36.27it/s, loss=0.3301]
+Epoch 86/100 [Val]: 100%|██████████████████████████████| 7/7 [00:00<00:00, 173.90it/s, loss=0.3919]
+INFO:src.models.train:Epoch 86/100 - Train Loss: 0.324748 - Val Loss: 0.406881 - LR: 9.50e-06
+Epoch 87/100 [Train]: 100%|███████████████████████████| 25/25 [00:00<00:00, 35.95it/s, loss=0.3143]
+Epoch 87/100 [Val]: 100%|██████████████████████████████| 7/7 [00:00<00:00, 174.73it/s, loss=0.4700]
+INFO:src.models.train:Epoch 87/100 - Train Loss: 0.324078 - Val Loss: 0.415220 - LR: 8.22e-06
+Epoch 88/100 [Train]: 100%|███████████████████████████| 25/25 [00:00<00:00, 35.96it/s, loss=0.3298]
+Epoch 88/100 [Val]: 100%|██████████████████████████████| 7/7 [00:00<00:00, 173.31it/s, loss=0.3925]
+INFO:src.models.train:Epoch 88/100 - Train Loss: 0.324281 - Val Loss: 0.407045 - LR: 7.03e-06
+Epoch 89/100 [Train]: 100%|███████████████████████████| 25/25 [00:00<00:00, 35.89it/s, loss=0.3242]
+Epoch 89/100 [Val]: 100%|██████████████████████████████| 7/7 [00:00<00:00, 154.52it/s, loss=0.4073]
+INFO:src.models.train:Epoch 89/100 - Train Loss: 0.325376 - Val Loss: 0.408933 - LR: 5.93e-06
+Epoch 90/100 [Train]: 100%|███████████████████████████| 25/25 [00:00<00:00, 35.82it/s, loss=0.3251]
+Epoch 90/100 [Val]: 100%|██████████████████████████████| 7/7 [00:00<00:00, 167.60it/s, loss=0.4327]
+INFO:src.models.train:Epoch 90/100 - Train Loss: 0.324034 - Val Loss: 0.411715 - LR: 4.91e-06
+Epoch 91/100 [Train]: 100%|███████████████████████████| 25/25 [00:00<00:00, 35.84it/s, loss=0.3052]
+Epoch 91/100 [Val]: 100%|██████████████████████████████| 7/7 [00:00<00:00, 166.57it/s, loss=0.4118]
+INFO:src.models.train:Epoch 91/100 - Train Loss: 0.324464 - Val Loss: 0.409257 - LR: 3.99e-06
+Epoch 92/100 [Train]: 100%|███████████████████████████| 25/25 [00:00<00:00, 35.63it/s, loss=0.3224]
+Epoch 92/100 [Val]: 100%|██████████████████████████████| 7/7 [00:00<00:00, 154.92it/s, loss=0.3947]
+INFO:src.models.train:Epoch 92/100 - Train Loss: 0.323872 - Val Loss: 0.407459 - LR: 3.16e-06
+Epoch 93/100 [Train]: 100%|███████████████████████████| 25/25 [00:00<00:00, 36.13it/s, loss=0.3224]
+Epoch 93/100 [Val]: 100%|██████████████████████████████| 7/7 [00:00<00:00, 161.71it/s, loss=0.3712]
+INFO:src.models.train:Epoch 93/100 - Train Loss: 0.323587 - Val Loss: 0.404846 - LR: 2.42e-06
+INFO:src.models.train:Saved best model to models/club_recommender_20250126_165621.pt
+Epoch 94/100 [Train]: 100%|███████████████████████████| 25/25 [00:00<00:00, 35.92it/s, loss=0.3223]
+Epoch 94/100 [Val]: 100%|██████████████████████████████| 7/7 [00:00<00:00, 179.26it/s, loss=0.3819]
+INFO:src.models.train:Epoch 94/100 - Train Loss: 0.324843 - Val Loss: 0.405671 - LR: 1.78e-06
+Epoch 95/100 [Train]: 100%|███████████████████████████| 25/25 [00:00<00:00, 34.07it/s, loss=0.3143]
+Epoch 95/100 [Val]: 100%|██████████████████████████████| 7/7 [00:00<00:00, 171.25it/s, loss=0.3923]
+INFO:src.models.train:Epoch 95/100 - Train Loss: 0.323248 - Val Loss: 0.406566 - LR: 1.23e-06
+Epoch 96/100 [Train]: 100%|███████████████████████████| 25/25 [00:00<00:00, 36.01it/s, loss=0.3061]
+Epoch 96/100 [Val]: 100%|██████████████████████████████| 7/7 [00:00<00:00, 186.74it/s, loss=0.4081]
+INFO:src.models.train:Epoch 96/100 - Train Loss: 0.323717 - Val Loss: 0.408251 - LR: 7.88e-07
+Epoch 97/100 [Train]: 100%|███████████████████████████| 25/25 [00:00<00:00, 36.26it/s, loss=0.3139]
+Epoch 97/100 [Val]: 100%|██████████████████████████████| 7/7 [00:00<00:00, 161.01it/s, loss=0.4002]
+INFO:src.models.train:Epoch 97/100 - Train Loss: 0.322589 - Val Loss: 0.407558 - LR: 4.41e-07
+Epoch 98/100 [Train]: 100%|███████████████████████████| 25/25 [00:00<00:00, 36.39it/s, loss=0.3245]
+Epoch 98/100 [Val]: 100%|██████████████████████████████| 7/7 [00:00<00:00, 175.31it/s, loss=0.4063]
+INFO:src.models.train:Epoch 98/100 - Train Loss: 0.323091 - Val Loss: 0.408553 - LR: 1.94e-07
+Epoch 99/100 [Train]: 100%|███████████████████████████| 25/25 [00:00<00:00, 35.75it/s, loss=0.3318]
+Epoch 99/100 [Val]: 100%|██████████████████████████████| 7/7 [00:00<00:00, 186.34it/s, loss=0.3812]
+INFO:src.models.train:Epoch 99/100 - Train Loss: 0.322951 - Val Loss: 0.405802 - LR: 4.68e-08
+Epoch 100/100 [Train]: 100%|██████████████████████████| 25/25 [00:00<00:00, 35.76it/s, loss=0.3315]
+Epoch 100/100 [Val]: 100%|█████████████████████████████| 7/7 [00:00<00:00, 171.30it/s, loss=0.3955]
+INFO:src.models.train:Epoch 100/100 - Train Loss: 0.322069 - Val Loss: 0.407566 - LR: 4.81e-10
+INFO:src.models.train:Successfully generated and saved training metric plots

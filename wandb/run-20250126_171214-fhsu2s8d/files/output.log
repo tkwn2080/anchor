@@ -1,0 +1,58 @@
+INFO:src.models.train:Starting training with config: {'epochs': 100, 'batch_size': 64, 'learning_rate': 0.0001, 'patience': 15, 'min_delta': 0.0001, 'max_grad_norm': 1.0, 'validation_split': 0.2, 'use_cache': True, 'wandb_project': 'club-recommender', 'model_name': 'club_recommender', 'hidden_size': 1024, 'num_hidden_layers': 4, 'intermediate_size': 2048, 'num_attention_heads': 16, 'positional_loss_weights': [1.0, 0.8, 0.6], 'temperature': 0.1, 'label_smoothing': 0.1, 'contrastive_weight': 0.2, 'categorical_dropout': 0.2, 'text_dropout': 0.2, 'feature_dropout': 0.2, 'attention_dropout': 0.1, 'use_layer_norm': True, 'scheduler_div_factor': 10.0, 'scheduler_final_div_factor': 100.0, 'scheduler_pct_start': 0.1, 'use_amp': True, 'grad_clip_enabled': True, 'gradient_checkpointing': True, 'use_club_metadata': True, 'attention_heads': 16}
+INFO:src.models.train:Loading dataset...
+Loading cached club embeddings...
+Loaded 163 club embeddings from cache
+
+Loading cached embeddings for 2000 samples...
+✓ Loaded cached embeddings
+INFO:src.models.train:Using device: mps (N/A)
+Model initialized with: categorical_size=14, text_embedding_size=384
+INFO:src.models.train:Starting training with 2000 samples
+INFO:src.models.train:Training: 1600 samples, Validation: 400 samples
+Training Progress:   0%|                                          | 0/100 [00:03<?, ?it/s, train_loss=-0.8622, val_loss=-2.1341, lr=1.22e-05]INFO:src.models.train:Epoch [  1/100] Train: -0.8622 Val: -2.1341 LR: 1.22e-05
+INFO:src.models.train:New best model saved (val_loss: -2.1341)
+Training Progress:   1%|▎                                 | 1/100 [00:08<08:26,  5.12s/it, train_loss=-2.1678, val_loss=-2.4183, lr=1.87e-05]INFO:src.models.train:Epoch [  2/100] Train: -2.1678 Val: -2.4183 LR: 1.87e-05
+INFO:src.models.train:New best model saved (val_loss: -2.4183)
+Training Progress:   2%|▋                                 | 2/100 [00:13<08:12,  5.02s/it, train_loss=-2.3856, val_loss=-2.5472, lr=2.87e-05]INFO:src.models.train:Epoch [  3/100] Train: -2.3856 Val: -2.5472 LR: 2.87e-05
+INFO:src.models.train:New best model saved (val_loss: -2.5472)
+Training Progress:   3%|█                                 | 3/100 [00:18<08:14,  5.10s/it, train_loss=-2.5910, val_loss=-2.7741, lr=4.13e-05]INFO:src.models.train:Epoch [  4/100] Train: -2.5910 Val: -2.7741 LR: 4.13e-05
+INFO:src.models.train:New best model saved (val_loss: -2.7741)
+Training Progress:   4%|█▎                                | 4/100 [00:23<08:04,  5.05s/it, train_loss=-2.8030, val_loss=-2.8902, lr=5.53e-05]INFO:src.models.train:Epoch [  5/100] Train: -2.8030 Val: -2.8902 LR: 5.53e-05
+INFO:src.models.train:New best model saved (val_loss: -2.8902)
+Training Progress:   5%|█▋                                | 5/100 [00:27<07:47,  4.92s/it, train_loss=-2.9427, val_loss=-3.0087, lr=6.92e-05]INFO:src.models.train:Epoch [  6/100] Train: -2.9427 Val: -3.0087 LR: 6.92e-05
+INFO:src.models.train:New best model saved (val_loss: -3.0087)
+Training Progress:   6%|██                                | 6/100 [00:33<07:52,  5.03s/it, train_loss=-3.0533, val_loss=-3.0918, lr=8.18e-05]INFO:src.models.train:Epoch [  7/100] Train: -3.0533 Val: -3.0918 LR: 8.18e-05
+INFO:src.models.train:New best model saved (val_loss: -3.0918)
+Training Progress:   7%|██▍                               | 7/100 [00:38<07:35,  4.90s/it, train_loss=-3.1532, val_loss=-3.1628, lr=9.17e-05]INFO:src.models.train:Epoch [  8/100] Train: -3.1532 Val: -3.1628 LR: 9.17e-05
+INFO:src.models.train:New best model saved (val_loss: -3.1628)
+Training Progress:   8%|██▋                               | 8/100 [00:43<07:44,  5.05s/it, train_loss=-3.2492, val_loss=-3.1904, lr=9.80e-05]INFO:src.models.train:Epoch [  9/100] Train: -3.2492 Val: -3.1904 LR: 9.80e-05
+INFO:src.models.train:New best model saved (val_loss: -3.1904)
+Training Progress:   9%|███                               | 9/100 [00:48<07:46,  5.13s/it, train_loss=-3.3269, val_loss=-3.2302, lr=1.00e-04]INFO:src.models.train:Epoch [ 10/100] Train: -3.3269 Val: -3.2302 LR: 1.00e-04
+INFO:src.models.train:New best model saved (val_loss: -3.2302)
+Training Progress:  10%|███▎                             | 10/100 [00:52<07:22,  4.92s/it, train_loss=-3.4127, val_loss=-3.2280, lr=1.00e-04]INFO:src.models.train:Epoch [ 11/100] Train: -3.4127 Val: -3.2280 LR: 1.00e-04
+Training Progress:  11%|███▋                             | 11/100 [00:55<06:26,  4.34s/it, train_loss=-3.4934, val_loss=-3.2337, lr=9.99e-05]INFO:src.models.train:Epoch [ 12/100] Train: -3.4934 Val: -3.2337 LR: 9.99e-05
+INFO:src.models.train:New best model saved (val_loss: -3.2337)
+Training Progress:  12%|███▉                             | 12/100 [01:00<06:22,  4.34s/it, train_loss=-3.5623, val_loss=-3.2599, lr=9.97e-05]INFO:src.models.train:Epoch [ 13/100] Train: -3.5623 Val: -3.2599 LR: 9.97e-05
+INFO:src.models.train:New best model saved (val_loss: -3.2599)
+Training Progress:  13%|████▎                            | 13/100 [01:06<07:09,  4.94s/it, train_loss=-3.6317, val_loss=-3.2693, lr=9.95e-05]INFO:src.models.train:Epoch [ 14/100] Train: -3.6317 Val: -3.2693 LR: 9.95e-05
+INFO:src.models.train:New best model saved (val_loss: -3.2693)
+Training Progress:  14%|████▌                            | 14/100 [01:11<07:01,  4.90s/it, train_loss=-3.6860, val_loss=-3.2519, lr=9.92e-05]INFO:src.models.train:Epoch [ 15/100] Train: -3.6860 Val: -3.2519 LR: 9.92e-05
+Training Progress:  15%|████▉                            | 15/100 [01:14<06:12,  4.38s/it, train_loss=-3.7478, val_loss=-3.3231, lr=9.89e-05]INFO:src.models.train:Epoch [ 16/100] Train: -3.7478 Val: -3.3231 LR: 9.89e-05
+INFO:src.models.train:New best model saved (val_loss: -3.3231)
+Training Progress:  16%|█████▎                           | 16/100 [01:19<06:13,  4.44s/it, train_loss=-3.7959, val_loss=-3.2692, lr=9.85e-05]INFO:src.models.train:Epoch [ 17/100] Train: -3.7959 Val: -3.2692 LR: 9.85e-05
+Training Progress:  17%|█████▌                           | 17/100 [01:22<05:31,  3.99s/it, train_loss=-3.8428, val_loss=-3.3012, lr=9.80e-05]INFO:src.models.train:Epoch [ 18/100] Train: -3.8428 Val: -3.3012 LR: 9.80e-05
+Training Progress:  18%|█████▉                           | 18/100 [01:25<05:01,  3.68s/it, train_loss=-3.8929, val_loss=-3.2812, lr=9.75e-05]INFO:src.models.train:Epoch [ 19/100] Train: -3.8929 Val: -3.2812 LR: 9.75e-05
+Training Progress:  19%|██████▎                          | 19/100 [01:28<04:41,  3.47s/it, train_loss=-3.9271, val_loss=-3.2705, lr=9.70e-05]INFO:src.models.train:Epoch [ 20/100] Train: -3.9271 Val: -3.2705 LR: 9.70e-05
+Training Progress:  20%|██████▌                          | 20/100 [01:31<04:33,  3.42s/it, train_loss=-3.9650, val_loss=-3.2897, lr=9.63e-05]INFO:src.models.train:Epoch [ 21/100] Train: -3.9650 Val: -3.2897 LR: 9.63e-05
+Training Progress:  21%|██████▉                          | 21/100 [01:35<04:26,  3.37s/it, train_loss=-4.0014, val_loss=-3.2837, lr=9.57e-05]INFO:src.models.train:Epoch [ 22/100] Train: -4.0014 Val: -3.2837 LR: 9.57e-05
+Training Progress:  22%|███████▎                         | 22/100 [01:38<04:26,  3.42s/it, train_loss=-4.0301, val_loss=-3.2595, lr=9.49e-05]INFO:src.models.train:Epoch [ 23/100] Train: -4.0301 Val: -3.2595 LR: 9.49e-05
+Training Progress:  23%|███████▌                         | 23/100 [01:42<04:25,  3.45s/it, train_loss=-4.0586, val_loss=-3.2954, lr=9.41e-05]INFO:src.models.train:Epoch [ 24/100] Train: -4.0586 Val: -3.2954 LR: 9.41e-05
+Training Progress:  24%|███████▉                         | 24/100 [01:45<04:24,  3.48s/it, train_loss=-4.0849, val_loss=-3.2784, lr=9.33e-05]INFO:src.models.train:Epoch [ 25/100] Train: -4.0849 Val: -3.2784 LR: 9.33e-05
+Training Progress:  25%|████████▎                        | 25/100 [01:50<04:27,  3.57s/it, train_loss=-4.1099, val_loss=-3.3001, lr=9.24e-05]INFO:src.models.train:Epoch [ 26/100] Train: -4.1099 Val: -3.3001 LR: 9.24e-05
+Training Progress:  26%|████████▌                        | 26/100 [01:55<04:40,  3.79s/it, train_loss=-4.1349, val_loss=-3.2833, lr=9.14e-05]INFO:src.models.train:Epoch [ 27/100] Train: -4.1349 Val: -3.2833 LR: 9.14e-05
+Training Progress:  27%|████████▉                        | 27/100 [02:01<05:17,  4.35s/it, train_loss=-4.1516, val_loss=-3.2868, lr=9.04e-05]INFO:src.models.train:Epoch [ 28/100] Train: -4.1516 Val: -3.2868 LR: 9.04e-05
+Training Progress:  28%|█████████▏                       | 28/100 [02:08<05:36,  4.68s/it, train_loss=-4.1729, val_loss=-3.2906, lr=8.94e-05]INFO:src.models.train:Epoch [ 29/100] Train: -4.1729 Val: -3.2906 LR: 8.94e-05
+Training Progress:  29%|█████████▌                       | 29/100 [02:17<06:29,  5.49s/it, train_loss=-4.1968, val_loss=-3.2841, lr=8.83e-05]INFO:src.models.train:Epoch [ 30/100] Train: -4.1968 Val: -3.2841 LR: 8.83e-05
+Training Progress:  30%|█████████▉                       | 30/100 [02:27<07:29,  6.42s/it, train_loss=-4.2107, val_loss=-3.3216, lr=8.71e-05]INFO:src.models.train:Epoch [ 31/100] Train: -4.2107 Val: -3.3216 LR: 8.71e-05
+INFO:src.models.train:Early stopping after 31 epochs
+Training Progress:  30%|█████████▉                       | 30/100 [02:27<05:43,  4.90s/it, train_loss=-4.2107, val_loss=-3.3216, lr=8.71e-05]

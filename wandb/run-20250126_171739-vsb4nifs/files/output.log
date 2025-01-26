@@ -1,0 +1,100 @@
+INFO:src.models.train:Starting training with config: {'epochs': 100, 'batch_size': 64, 'learning_rate': 0.0001, 'patience': 15, 'min_delta': 0.0001, 'max_grad_norm': 1.0, 'validation_split': 0.2, 'use_cache': True, 'wandb_project': 'club-recommender', 'model_name': 'club_recommender', 'hidden_size': 1024, 'num_hidden_layers': 4, 'intermediate_size': 2048, 'num_attention_heads': 16, 'temperature': 0.1, 'label_smoothing': 0.1, 'contrastive_weight': 0.2, 'categorical_dropout': 0.2, 'text_dropout': 0.2, 'feature_dropout': 0.2, 'attention_dropout': 0.1, 'use_layer_norm': True, 'scheduler_div_factor': 10.0, 'scheduler_final_div_factor': 100.0, 'scheduler_pct_start': 0.1, 'use_amp': True, 'grad_clip_enabled': True, 'gradient_checkpointing': True, 'use_club_metadata': True, 'attention_heads': 16}
+INFO:src.models.train:Loading dataset...
+Computing club embeddings...
+Computing embeddings:   0%|                                                                                            | 0/6 [00:41<?, ?it/s]
+Traceback (most recent call last):
+  File "/Users/benjamingaskin/Documents/nScribe/anchor/main.py", line 161, in <module>
+    main()
+  File "/Users/benjamingaskin/Documents/nScribe/anchor/main.py", line 152, in main
+    run_train(config)
+  File "/Users/benjamingaskin/Documents/nScribe/anchor/main.py", line 98, in run_train
+    train_model(
+  File "/Users/benjamingaskin/Documents/nScribe/anchor/src/models/train.py", line 397, in train_model
+    dataset = RecommenderDataset(
+  File "/Users/benjamingaskin/Documents/nScribe/anchor/src/models/train.py", line 265, in __init__
+    self.club_embeddings = ClubEmbeddings(clubs_csv)
+  File "/Users/benjamingaskin/Documents/nScribe/anchor/src/models/embeddings.py", line 102, in __init__
+    self.load_or_compute_embeddings()
+  File "/Users/benjamingaskin/Documents/nScribe/anchor/src/models/embeddings.py", line 114, in load_or_compute_embeddings
+    self._compute_and_cache_embeddings()
+  File "/Users/benjamingaskin/Documents/nScribe/anchor/src/models/embeddings.py", line 132, in _compute_and_cache_embeddings
+    embeddings = batch_encode_texts(text_model, descriptions, self.batch_size)
+  File "/Users/benjamingaskin/Documents/nScribe/anchor/src/models/embeddings.py", line 77, in batch_encode_texts
+    batch_embeddings = model.encode(batch, show_progress_bar=False, convert_to_numpy=True)
+  File "/Users/benjamingaskin/Library/Caches/pypoetry/virtualenvs/anchor-D7vU4ROR-py3.10/lib/python3.10/site-packages/sentence_transformers/SentenceTransformer.py", line 623, in encode
+    out_features = self.forward(features, **kwargs)
+  File "/Users/benjamingaskin/Library/Caches/pypoetry/virtualenvs/anchor-D7vU4ROR-py3.10/lib/python3.10/site-packages/sentence_transformers/SentenceTransformer.py", line 690, in forward
+    input = module(input, **module_kwargs)
+  File "/Users/benjamingaskin/Library/Caches/pypoetry/virtualenvs/anchor-D7vU4ROR-py3.10/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1736, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+  File "/Users/benjamingaskin/Library/Caches/pypoetry/virtualenvs/anchor-D7vU4ROR-py3.10/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1747, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/Users/benjamingaskin/Library/Caches/pypoetry/virtualenvs/anchor-D7vU4ROR-py3.10/lib/python3.10/site-packages/sentence_transformers/models/Transformer.py", line 442, in forward
+    output_states = self.auto_model(**trans_features, **kwargs, return_dict=False)
+  File "/Users/benjamingaskin/Library/Caches/pypoetry/virtualenvs/anchor-D7vU4ROR-py3.10/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1736, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+  File "/Users/benjamingaskin/Library/Caches/pypoetry/virtualenvs/anchor-D7vU4ROR-py3.10/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1747, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/Users/benjamingaskin/.cache/huggingface/modules/transformers_modules/NovaSearch/stella_en_1.5B_v5/f10d4793289fa0d0a36978d6ecd0a9eaa6781f06/modeling_qwen.py", line 1083, in forward
+    layer_outputs = decoder_layer(
+  File "/Users/benjamingaskin/Library/Caches/pypoetry/virtualenvs/anchor-D7vU4ROR-py3.10/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1736, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+  File "/Users/benjamingaskin/Library/Caches/pypoetry/virtualenvs/anchor-D7vU4ROR-py3.10/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1747, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/Users/benjamingaskin/.cache/huggingface/modules/transformers_modules/NovaSearch/stella_en_1.5B_v5/f10d4793289fa0d0a36978d6ecd0a9eaa6781f06/modeling_qwen.py", line 782, in forward
+    hidden_states, self_attn_weights, present_key_value = self.self_attn(
+  File "/Users/benjamingaskin/Library/Caches/pypoetry/virtualenvs/anchor-D7vU4ROR-py3.10/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1736, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+  File "/Users/benjamingaskin/Library/Caches/pypoetry/virtualenvs/anchor-D7vU4ROR-py3.10/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1747, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/Users/benjamingaskin/.cache/huggingface/modules/transformers_modules/NovaSearch/stella_en_1.5B_v5/f10d4793289fa0d0a36978d6ecd0a9eaa6781f06/modeling_qwen.py", line 684, in forward
+    query_states, key_states = apply_rotary_pos_emb(query_states, key_states, cos, sin, position_ids)
+KeyboardInterrupt
+Traceback (most recent call last):
+  File "/Users/benjamingaskin/Documents/nScribe/anchor/main.py", line 161, in <module>
+    main()
+  File "/Users/benjamingaskin/Documents/nScribe/anchor/main.py", line 152, in main
+    run_train(config)
+  File "/Users/benjamingaskin/Documents/nScribe/anchor/main.py", line 98, in run_train
+    train_model(
+  File "/Users/benjamingaskin/Documents/nScribe/anchor/src/models/train.py", line 397, in train_model
+    dataset = RecommenderDataset(
+  File "/Users/benjamingaskin/Documents/nScribe/anchor/src/models/train.py", line 265, in __init__
+    self.club_embeddings = ClubEmbeddings(clubs_csv)
+  File "/Users/benjamingaskin/Documents/nScribe/anchor/src/models/embeddings.py", line 102, in __init__
+    self.load_or_compute_embeddings()
+  File "/Users/benjamingaskin/Documents/nScribe/anchor/src/models/embeddings.py", line 114, in load_or_compute_embeddings
+    self._compute_and_cache_embeddings()
+  File "/Users/benjamingaskin/Documents/nScribe/anchor/src/models/embeddings.py", line 132, in _compute_and_cache_embeddings
+    embeddings = batch_encode_texts(text_model, descriptions, self.batch_size)
+  File "/Users/benjamingaskin/Documents/nScribe/anchor/src/models/embeddings.py", line 77, in batch_encode_texts
+    batch_embeddings = model.encode(batch, show_progress_bar=False, convert_to_numpy=True)
+  File "/Users/benjamingaskin/Library/Caches/pypoetry/virtualenvs/anchor-D7vU4ROR-py3.10/lib/python3.10/site-packages/sentence_transformers/SentenceTransformer.py", line 623, in encode
+    out_features = self.forward(features, **kwargs)
+  File "/Users/benjamingaskin/Library/Caches/pypoetry/virtualenvs/anchor-D7vU4ROR-py3.10/lib/python3.10/site-packages/sentence_transformers/SentenceTransformer.py", line 690, in forward
+    input = module(input, **module_kwargs)
+  File "/Users/benjamingaskin/Library/Caches/pypoetry/virtualenvs/anchor-D7vU4ROR-py3.10/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1736, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+  File "/Users/benjamingaskin/Library/Caches/pypoetry/virtualenvs/anchor-D7vU4ROR-py3.10/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1747, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/Users/benjamingaskin/Library/Caches/pypoetry/virtualenvs/anchor-D7vU4ROR-py3.10/lib/python3.10/site-packages/sentence_transformers/models/Transformer.py", line 442, in forward
+    output_states = self.auto_model(**trans_features, **kwargs, return_dict=False)
+  File "/Users/benjamingaskin/Library/Caches/pypoetry/virtualenvs/anchor-D7vU4ROR-py3.10/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1736, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+  File "/Users/benjamingaskin/Library/Caches/pypoetry/virtualenvs/anchor-D7vU4ROR-py3.10/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1747, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/Users/benjamingaskin/.cache/huggingface/modules/transformers_modules/NovaSearch/stella_en_1.5B_v5/f10d4793289fa0d0a36978d6ecd0a9eaa6781f06/modeling_qwen.py", line 1083, in forward
+    layer_outputs = decoder_layer(
+  File "/Users/benjamingaskin/Library/Caches/pypoetry/virtualenvs/anchor-D7vU4ROR-py3.10/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1736, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+  File "/Users/benjamingaskin/Library/Caches/pypoetry/virtualenvs/anchor-D7vU4ROR-py3.10/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1747, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/Users/benjamingaskin/.cache/huggingface/modules/transformers_modules/NovaSearch/stella_en_1.5B_v5/f10d4793289fa0d0a36978d6ecd0a9eaa6781f06/modeling_qwen.py", line 782, in forward
+    hidden_states, self_attn_weights, present_key_value = self.self_attn(
+  File "/Users/benjamingaskin/Library/Caches/pypoetry/virtualenvs/anchor-D7vU4ROR-py3.10/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1736, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+  File "/Users/benjamingaskin/Library/Caches/pypoetry/virtualenvs/anchor-D7vU4ROR-py3.10/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1747, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/Users/benjamingaskin/.cache/huggingface/modules/transformers_modules/NovaSearch/stella_en_1.5B_v5/f10d4793289fa0d0a36978d6ecd0a9eaa6781f06/modeling_qwen.py", line 684, in forward
+    query_states, key_states = apply_rotary_pos_emb(query_states, key_states, cos, sin, position_ids)
+KeyboardInterrupt

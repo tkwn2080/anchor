@@ -1,0 +1,60 @@
+INFO:src.models.train:Starting training with config: {'epochs': 100, 'batch_size': 64, 'learning_rate': 0.0001, 'patience': 15, 'min_delta': 0.0001, 'max_grad_norm': 1.0, 'validation_split': 0.2, 'use_cache': True, 'wandb_project': 'club-recommender', 'model_name': 'club_recommender'}
+INFO:src.models.train:Loading dataset...
+Loading cached club embeddings...
+Loaded 163 club embeddings from cache
+
+Loading cached embeddings for 2000 samples...
+✓ Loaded cached embeddings
+Model initialized with: categorical_size=14, text_embedding_size=384
+INFO:src.models.train:Training on cpu
+INFO:src.models.train:Dataset size: 2000 samples
+INFO:src.models.train:Training samples: 1600
+INFO:src.models.train:Validation samples: 400
+Traceback (most recent call last):
+  File "/Users/benjamingaskin/Documents/nScribe/anchor/main.py", line 161, in <module>
+    main()
+  File "/Users/benjamingaskin/Documents/nScribe/anchor/main.py", line 152, in main
+    run_train(config)
+  File "/Users/benjamingaskin/Documents/nScribe/anchor/main.py", line 98, in run_train
+    train_model(
+  File "/Users/benjamingaskin/Documents/nScribe/anchor/src/models/train.py", line 475, in train_model
+    avg_val_loss = val_metrics['total_loss'] / val_metrics['batches']
+  File "/Users/benjamingaskin/Library/Caches/pypoetry/virtualenvs/anchor-D7vU4ROR-py3.10/lib/python3.10/site-packages/torch/utils/data/dataloader.py", line 701, in __next__
+    data = self._next_data()
+  File "/Users/benjamingaskin/Library/Caches/pypoetry/virtualenvs/anchor-D7vU4ROR-py3.10/lib/python3.10/site-packages/torch/utils/data/dataloader.py", line 1437, in _next_data
+    self._shutdown_workers()
+  File "/Users/benjamingaskin/Library/Caches/pypoetry/virtualenvs/anchor-D7vU4ROR-py3.10/lib/python3.10/site-packages/torch/utils/data/dataloader.py", line 1568, in _shutdown_workers
+    w.join(timeout=_utils.MP_STATUS_CHECK_INTERVAL)
+  File "/opt/homebrew/Cellar/python@3.10/3.10.15/Frameworks/Python.framework/Versions/3.10/lib/python3.10/multiprocessing/process.py", line 149, in join
+    res = self._popen.wait(timeout)
+  File "/opt/homebrew/Cellar/python@3.10/3.10.15/Frameworks/Python.framework/Versions/3.10/lib/python3.10/multiprocessing/popen_fork.py", line 40, in wait
+    if not wait([self.sentinel], timeout):
+  File "/opt/homebrew/Cellar/python@3.10/3.10.15/Frameworks/Python.framework/Versions/3.10/lib/python3.10/multiprocessing/connection.py", line 931, in wait
+    ready = selector.select(timeout)
+  File "/opt/homebrew/Cellar/python@3.10/3.10.15/Frameworks/Python.framework/Versions/3.10/lib/python3.10/selectors.py", line 416, in select
+    fd_event_list = self._selector.poll(timeout)
+KeyboardInterrupt
+Traceback (most recent call last):
+  File "/Users/benjamingaskin/Documents/nScribe/anchor/main.py", line 161, in <module>
+    main()
+  File "/Users/benjamingaskin/Documents/nScribe/anchor/main.py", line 152, in main
+    run_train(config)
+  File "/Users/benjamingaskin/Documents/nScribe/anchor/main.py", line 98, in run_train
+    train_model(
+  File "/Users/benjamingaskin/Documents/nScribe/anchor/src/models/train.py", line 475, in train_model
+    avg_val_loss = val_metrics['total_loss'] / val_metrics['batches']
+  File "/Users/benjamingaskin/Library/Caches/pypoetry/virtualenvs/anchor-D7vU4ROR-py3.10/lib/python3.10/site-packages/torch/utils/data/dataloader.py", line 701, in __next__
+    data = self._next_data()
+  File "/Users/benjamingaskin/Library/Caches/pypoetry/virtualenvs/anchor-D7vU4ROR-py3.10/lib/python3.10/site-packages/torch/utils/data/dataloader.py", line 1437, in _next_data
+    self._shutdown_workers()
+  File "/Users/benjamingaskin/Library/Caches/pypoetry/virtualenvs/anchor-D7vU4ROR-py3.10/lib/python3.10/site-packages/torch/utils/data/dataloader.py", line 1568, in _shutdown_workers
+    w.join(timeout=_utils.MP_STATUS_CHECK_INTERVAL)
+  File "/opt/homebrew/Cellar/python@3.10/3.10.15/Frameworks/Python.framework/Versions/3.10/lib/python3.10/multiprocessing/process.py", line 149, in join
+    res = self._popen.wait(timeout)
+  File "/opt/homebrew/Cellar/python@3.10/3.10.15/Frameworks/Python.framework/Versions/3.10/lib/python3.10/multiprocessing/popen_fork.py", line 40, in wait
+    if not wait([self.sentinel], timeout):
+  File "/opt/homebrew/Cellar/python@3.10/3.10.15/Frameworks/Python.framework/Versions/3.10/lib/python3.10/multiprocessing/connection.py", line 931, in wait
+    ready = selector.select(timeout)
+  File "/opt/homebrew/Cellar/python@3.10/3.10.15/Frameworks/Python.framework/Versions/3.10/lib/python3.10/selectors.py", line 416, in select
+    fd_event_list = self._selector.poll(timeout)
+KeyboardInterrupt

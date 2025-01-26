@@ -1,0 +1,16 @@
+{"time":"2025-01-26T16:59:52.43758-05:00","level":"INFO","msg":"stream: starting","core version":"0.19.4","symlink path":"/Users/benjamingaskin/Documents/nScribe/anchor/wandb/run-20250126_165952-oau12gr2/logs/debug-core.log"}
+{"time":"2025-01-26T16:59:52.546317-05:00","level":"INFO","msg":"created new stream","id":"oau12gr2"}
+{"time":"2025-01-26T16:59:52.546364-05:00","level":"INFO","msg":"stream: started","id":"oau12gr2"}
+{"time":"2025-01-26T16:59:52.546383-05:00","level":"INFO","msg":"sender: started","stream_id":"oau12gr2"}
+{"time":"2025-01-26T16:59:52.546383-05:00","level":"INFO","msg":"writer: Do: started","stream_id":"oau12gr2"}
+{"time":"2025-01-26T16:59:52.54641-05:00","level":"INFO","msg":"handler: started","stream_id":"oau12gr2"}
+{"time":"2025-01-26T16:59:52.815228-05:00","level":"INFO","msg":"Starting system monitor"}
+{"time":"2025-01-26T17:01:06.183404-05:00","level":"INFO","msg":"Stopping system monitor"}
+{"time":"2025-01-26T17:01:06.183694-05:00","level":"INFO","msg":"Stopped system monitor"}
+{"time":"2025-01-26T17:01:07.185781-05:00","level":"INFO","msg":"handler: operation stats","stats":{"operations":[{"desc":"uploading models/club_recommender_20250126_170055.pt","runtime_seconds":0.724324166,"progress":"21.7MB/52.4MB"}],"total_operations":1}}
+{"time":"2025-01-26T17:01:10.409458-05:00","level":"INFO","msg":"fileTransfer: Close: file transfer manager closed"}
+{"time":"2025-01-26T17:01:11.637762-05:00","level":"INFO","msg":"stream: closing","id":"oau12gr2"}
+{"time":"2025-01-26T17:01:11.637796-05:00","level":"INFO","msg":"handler: closed","stream_id":"oau12gr2"}
+{"time":"2025-01-26T17:01:11.637833-05:00","level":"INFO","msg":"sender: closed","stream_id":"oau12gr2"}
+{"time":"2025-01-26T17:01:11.637821-05:00","level":"INFO","msg":"writer: Close: closed","stream_id":"oau12gr2"}
+{"time":"2025-01-26T17:01:11.638016-05:00","level":"INFO","msg":"stream: closed","id":"oau12gr2"}

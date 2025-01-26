@@ -1,0 +1,38 @@
+[project]
+name = "anchor"
+version = "0.1.0"
+description = ""
+authors = [
+    {name = "B",email = "135119655+tkwn2080@users.noreply.github.com"}
+]
+readme = "README.md"
+requires-python = ">=3.9,<3.11"
+package-mode = false
+dependencies = [
+    "boto3 (>=1.36.6,<2.0.0)",
+    "bertopic (>=0.16.4,<0.17.0)",
+    "pydantic (>=2.10.6,<3.0.0)",
+    "torch (>=2.5.1,<3.0.0)",
+    "ray (>=2.41.0,<3.0.0)",
+    "wandb (>=0.19.4,<0.20.0)",
+    "matplotlib (>=3.8.0,<3.9.0)",
+    "seaborn (>=0.13.2,<0.14.0)"
+]
+
+[tool.poetry.dependencies]
+python = ">=3.9,<3.11"
+pandas = "^2.2.3"
+sentence-transformers = "^2.3.1"
+anthropic = "^0.18.1"
+tqdm = "^4.66.1"
+python-dotenv = "^1.0.0"
+
+[tool.poetry.scripts]
+cluster = "main:main ['cluster']"
+data = "main:main ['data']"
+train = "main:main ['train']"
+pipeline = "main:main ['pipeline']"
+
+[build-system]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"

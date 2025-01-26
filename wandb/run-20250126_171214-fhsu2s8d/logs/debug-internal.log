@@ -1,0 +1,16 @@
+{"time":"2025-01-26T17:12:14.439506-05:00","level":"INFO","msg":"stream: starting","core version":"0.19.4","symlink path":"/Users/benjamingaskin/Documents/nScribe/anchor/wandb/run-20250126_171214-fhsu2s8d/logs/debug-core.log"}
+{"time":"2025-01-26T17:12:14.551422-05:00","level":"INFO","msg":"created new stream","id":"fhsu2s8d"}
+{"time":"2025-01-26T17:12:14.551491-05:00","level":"INFO","msg":"stream: started","id":"fhsu2s8d"}
+{"time":"2025-01-26T17:12:14.551554-05:00","level":"INFO","msg":"handler: started","stream_id":"fhsu2s8d"}
+{"time":"2025-01-26T17:12:14.551788-05:00","level":"INFO","msg":"sender: started","stream_id":"fhsu2s8d"}
+{"time":"2025-01-26T17:12:14.551776-05:00","level":"INFO","msg":"writer: Do: started","stream_id":"fhsu2s8d"}
+{"time":"2025-01-26T17:12:15.353696-05:00","level":"INFO","msg":"Starting system monitor"}
+{"time":"2025-01-26T17:13:16.004515-05:00","level":"INFO","msg":"api: retrying error","error":"Post \"https://api.wandb.ai/files/nscribe/club-recommender/fhsu2s8d/file_stream\": read tcp 192.168.0.79:57634->35.186.228.49:443: read: connection reset by peer"}
+{"time":"2025-01-26T17:14:31.277468-05:00","level":"INFO","msg":"api: retrying error","error":"Post \"https://api.wandb.ai/files/nscribe/club-recommender/fhsu2s8d/file_stream\": read tcp 192.168.0.79:57674->35.186.228.49:443: read: connection reset by peer"}
+{"time":"2025-01-26T17:14:45.601263-05:00","level":"INFO","msg":"Stopping system monitor"}
+{"time":"2025-01-26T17:14:45.604358-05:00","level":"INFO","msg":"Stopped system monitor"}
+{"time":"2025-01-26T17:14:45.930906-05:00","level":"INFO","msg":"api: retrying error","error":"Post \"https://api.wandb.ai/files/nscribe/club-recommender/fhsu2s8d/file_stream\": read tcp 192.168.0.79:57680->35.186.228.49:443: read: connection reset by peer"}
+{"time":"2025-01-26T17:14:46.601785-05:00","level":"INFO","msg":"handler: operation stats","stats":{"operations":[{"desc":"uploading history steps 29-32, console lines 54-57","runtime_seconds":0.823616458,"error_status":"retrying: Post \"https://api.wandb.ai/files/nscribe/club-recommender/fhsu2s8d/file_stream\": read tcp 192.168.0.79:57680->35.186.228.49:443: read: connection reset by peer"},{"desc":"uploading models/club_recommender_20250126_171330.pt","runtime_seconds":0.670043542,"progress":"3.1MB/745.4MB"}],"total_operations":2}}
+{"time":"2025-01-26T17:15:46.719128-05:00","level":"INFO","msg":"handler: operation stats","stats":{"operations":[{"desc":"uploading models/club_recommender_20250126_171330.pt","runtime_seconds":60.787157709,"progress":"178.1MB/745.4MB"}],"total_operations":1}}
+{"time":"2025-01-26T17:16:31.104863-05:00","level":"INFO","msg":"stream: closing","id":"fhsu2s8d"}
+{"time":"2025-01-26T17:16:31.105321-05:00","level":"WARN","msg":"sender: received Exit record more than once, ignoring"}
