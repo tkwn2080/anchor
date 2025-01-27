@@ -6,7 +6,7 @@ import json
 from pathlib import Path
 import numpy as np
 from datetime import datetime
-from typing import List, Optional
+from typing import List, Optional, Tuple
 import pandas as pd
 import logging
 import wandb
@@ -38,24 +38,34 @@ def log_epoch_metrics(epoch: int, epochs: int, train_loss: float, val_loss: floa
         f"LR: {lr:.2e}"
     )
 
-def print_prediction_results(profile: dict, actual_clubs: List[str], predictions: List[tuple], confidence_threshold: float = 0.5):
+def print_prediction_results(profile: dict, actual_clubs: List[str], predictions: List[tuple]):
     """Print prediction results in a clean, consistent format"""
     print("\nProfile Summary:")
     print("-" * 40)
     print(f"Interests: {profile['hobbies'][:100]}...")
     print(f"Happiness: {profile['happiness_description'][:100]}...")
     
-    print("\nPredictions vs Actual:")
+    print("\nRecommendations vs Actual:")
     print("-" * 40)
-    for i, (actual, pred) in enumerate(zip(actual_clubs, predictions)):
-        confidence = pred[0][0]  # First prediction's confidence
-        status = "✓" if pred[0][1] == actual else "✗"
-        confidence_indicator = "!" if confidence > confidence_threshold else " "
-        
-        print(f"{i+1}. {status} Predicted: {pred[0][1]:<30} ({confidence:.3f}){confidence_indicator}")
-        print(f"   Actual:    {actual:<30}")
-        if pred[0][1] != actual:
-            print(f"   Also considered: {pred[1][1]} ({pred[1][0]:.3f}), {pred[2][1]} ({pred[2][0]:.3f})")
+    
+    # Group recommendations by location
+    for loc_idx, loc_preds in enumerate(predictions[:3], 1):
+        print(f"\nLocation {loc_idx} recommendations:")
+        for i, (conf, club) in enumerate(loc_preds[:3], 1):
+            status = "✓" if club in actual_clubs else "✗"
+            print(f"{i}. {status} {club:<30} ({conf:.3f})")
+    
+    # Show the additional recommendation
+    if len(predictions) > 3:
+        print("\nAdditional recommendation:")
+        conf, club = predictions[3][0]
+        status = "✓" if club in actual_clubs else "✗"
+        print(f"   {status} {club:<30} ({conf:.3f})")
+    
+    print("\nActual Clubs:")
+    print("-" * 40)
+    for i, club in enumerate(actual_clubs, 1):
+        print(f"{i}. {club}")
     print("-" * 40)
 
 class TransformerBlock(nn.Module):
@@ -91,125 +101,138 @@ class TransformerBlock(nn.Module):
 class ClubRecommenderModel(nn.Module):
     def __init__(self, categorical_size: int, text_embedding_size: int, config: TrainingConfig):
         super().__init__()
-        
-        # Store config for use in forward pass
         self.config = config
         
-        # Print sizes for debugging
-        print(f"Model initialized with: categorical_size={categorical_size}, text_embedding_size={text_embedding_size}")
-        
-        # Categorical pathway with larger dimensions
-        self.categorical_encoder = nn.Sequential(
-            nn.Linear(categorical_size, config.hidden_size),
-            nn.LayerNorm(config.hidden_size),
-            nn.GELU(),
-            nn.Dropout(config.categorical_dropout),
-            nn.Linear(config.hidden_size, config.hidden_size),
-            nn.LayerNorm(config.hidden_size),
-            nn.GELU(),
-            nn.Dropout(config.categorical_dropout)
-        )
-        
-        # Text embedding projections
+        # Project each input type to hidden size
+        self.categorical_projection = nn.Linear(categorical_size, config.hidden_size)
         self.happiness_projection = nn.Linear(text_embedding_size, config.hidden_size)
         self.hobbies_projection = nn.Linear(text_embedding_size, config.hidden_size)
+        self.happiness_match_projection = nn.Linear(text_embedding_size, config.hidden_size)
+        self.hobbies_match_projection = nn.Linear(text_embedding_size, config.hidden_size)
         
-        # Transformer layers for text processing
-        self.text_transformer = nn.ModuleList([
-            TransformerBlock(config)
-            for _ in range(config.num_hidden_layers)
-        ])
+        # Normalization layers for each input
+        self.categorical_norm = nn.LayerNorm(config.hidden_size)
+        self.happiness_norm = nn.LayerNorm(config.hidden_size)
+        self.hobbies_norm = nn.LayerNorm(config.hidden_size)
+        self.happiness_match_norm = nn.LayerNorm(config.hidden_size)
+        self.hobbies_match_norm = nn.LayerNorm(config.hidden_size)
         
-        # Cross-modal attention
-        self.cross_modal_attention = nn.MultiheadAttention(
+        # Input type embeddings to distinguish different inputs
+        self.input_type_embeddings = nn.Parameter(
+            torch.randn(5, config.hidden_size)  # 5 types: categorical, happiness, hobbies, happiness_match, hobbies_match
+        )
+        
+        # Club embedding projection and normalization
+        self.club_projection = nn.Linear(text_embedding_size, config.hidden_size)
+        self.club_norm = nn.LayerNorm(config.hidden_size)
+        
+        # Transformer blocks for processing
+        self.input_transformer = TransformerBlock(config)
+        
+        # Cross attention between inputs and clubs
+        self.cross_attention = nn.MultiheadAttention(
             embed_dim=config.hidden_size,
             num_heads=config.num_attention_heads,
             dropout=config.attention_dropout,
             batch_first=True
         )
+        self.cross_norm = nn.LayerNorm(config.hidden_size)
         
-        # Feature fusion transformer
-        self.fusion_transformer = nn.ModuleList([
-            TransformerBlock(config)
-            for _ in range(config.num_hidden_layers // 2)
-        ])
+        # Final processing
+        self.hidden_transformer = TransformerBlock(config)
         
-        # Club prediction heads
-        self.club_predictors = nn.ModuleList([
+        # Location predictors - one for each embedding space location
+        self.location_predictors = nn.ModuleList([
             nn.Sequential(
                 nn.Linear(config.hidden_size, config.intermediate_size),
                 nn.LayerNorm(config.intermediate_size),
                 nn.GELU(),
                 nn.Dropout(config.feature_dropout),
-                nn.Linear(config.intermediate_size, text_embedding_size)
-            ) for _ in range(3)
+                nn.Linear(config.intermediate_size, text_embedding_size),
+                nn.LayerNorm(text_embedding_size)
+            ) for _ in range(config.num_locations)
         ])
         
-        if config.gradient_checkpointing:
-            self.gradient_checkpointing_enable()
+        # Match influence projection
+        self.match_influence_projection = nn.Linear(config.hidden_size, text_embedding_size)
     
-    def gradient_checkpointing_enable(self):
-        """Enable gradient checkpointing for memory efficiency"""
-        for transformer in self.text_transformer:
-            transformer.attention._use_gradient_checkpointing = True
-        for transformer in self.fusion_transformer:
-            transformer.attention._use_gradient_checkpointing = True
-    
-    def forward(self, categorical_input, text_happiness_input, text_hobbies_input):
+    def forward(self, categorical_input, text_happiness_input, text_hobbies_input, happiness_match_embedding, hobbies_match_embedding, club_embeddings):
         batch_size = categorical_input.shape[0]
         
-        # Process categorical input
-        categorical_encoded = self.categorical_encoder(categorical_input)
-        categorical_encoded = categorical_encoded.unsqueeze(1)  # Add sequence dimension
+        # Project and normalize each input
+        categorical_features = self.categorical_norm(self.categorical_projection(categorical_input))  # [batch, hidden]
+        happiness_features = self.happiness_norm(self.happiness_projection(text_happiness_input))  # [batch, hidden]
+        hobbies_features = self.hobbies_norm(self.hobbies_projection(text_hobbies_input))  # [batch, hidden]
+        happiness_match_features = self.happiness_match_norm(self.happiness_match_projection(happiness_match_embedding))  # [batch, hidden]
+        hobbies_match_features = self.hobbies_match_norm(self.hobbies_match_projection(hobbies_match_embedding))  # [batch, hidden]
         
-        # Project text inputs to hidden size
-        happiness_encoded = self.happiness_projection(text_happiness_input).unsqueeze(1)
-        hobbies_encoded = self.hobbies_projection(text_hobbies_input).unsqueeze(1)
+        # Add input type embeddings
+        categorical_features = categorical_features + self.input_type_embeddings[0]
+        happiness_features = happiness_features + self.input_type_embeddings[1]
+        hobbies_features = hobbies_features + self.input_type_embeddings[2]
+        happiness_match_features = happiness_match_features + self.input_type_embeddings[3]
+        hobbies_match_features = hobbies_match_features + self.input_type_embeddings[4]
         
-        # Combine text features
-        text_sequence = torch.cat([happiness_encoded, hobbies_encoded], dim=1)
-        
-        # Process through text transformer layers
-        for transformer in self.text_transformer:
-            text_sequence = transformer(text_sequence)
-        
-        # Cross-modal attention between text and categorical
-        cross_modal_features, _ = self.cross_modal_attention(
-            categorical_encoded,
-            text_sequence,
-            text_sequence
-        )
-        
-        # Combine features for fusion
-        combined_features = torch.cat([
-            categorical_encoded,
-            cross_modal_features,
-            text_sequence
+        # Stack features for attention [batch, 5, hidden_size]
+        stacked_features = torch.stack([
+            categorical_features,
+            happiness_features,
+            hobbies_features,
+            happiness_match_features,
+            hobbies_match_features
         ], dim=1)
         
-        # Process through fusion transformer
-        for transformer in self.fusion_transformer:
-            combined_features = transformer(combined_features)
+        # Process inputs through first transformer
+        features = self.input_transformer(stacked_features)
         
-        # Global average pooling
-        pooled_features = combined_features.mean(dim=1)
+        # Project and normalize club embeddings
+        club_features = self.club_norm(self.club_projection(club_embeddings))
         
-        # Generate predictions
-        predictions = []
-        for predictor in self.club_predictors:
-            pred = predictor(pooled_features)
-            # Only normalize and apply temperature, no positional weights here
-            pred = pred / (pred.norm(dim=1, keepdim=True) + 1e-6)
-            pred = pred / self.config.temperature
-            predictions.append(pred)
+        # Cross attention between processed inputs and clubs
+        cross_attended, _ = self.cross_attention(
+            features,  # query from processed inputs
+            club_features,  # keys/values from clubs
+            club_features
+        )
         
-        return predictions
+        # Combine features
+        features = self.cross_norm(features + cross_attended)
+        
+        # Final transformer processing
+        features = self.hidden_transformer(features)
+        
+        # Pool features across sequence dimension with learned attention
+        attention_weights = torch.softmax(
+            features.mean(-1, keepdim=True),  # [batch, 5, 1]
+            dim=1
+        )
+        pooled_features = (features * attention_weights).sum(dim=1)  # [batch, hidden_size]
+        
+        # Generate location embeddings
+        locations = []
+        for predictor in self.location_predictors:
+            # Get base location embedding
+            loc = predictor(pooled_features)  # [batch, text_embedding_size]
+            
+            # Get match influence in embedding space
+            match_influence = self.match_influence_projection(
+                (features * attention_weights).sum(dim=1)  # [batch, hidden_size]
+            )  # [batch, text_embedding_size]
+            
+            # Combine base prediction with match influence
+            loc = loc + 0.5 * match_influence
+            
+            # Normalize final embedding
+            loc = loc / (loc.norm(dim=1, keepdim=True) + 1e-6)
+            locations.append(loc)
+        
+        return locations
 
 def club_recommendation_loss(predictions: List[torch.Tensor], targets: List[torch.Tensor], config: TrainingConfig) -> torch.Tensor:
-    """Loss function for three club recommendations
+    """Loss function for three location-based recommendations
     
     Args:
-        predictions: List of three predicted club embeddings
+        predictions: List of three predicted location embeddings
         targets: List of three target club embeddings
         config: Training configuration
     
@@ -219,50 +242,87 @@ def club_recommendation_loss(predictions: List[torch.Tensor], targets: List[torc
     total_loss = 0.0
     batch_size = predictions[0].shape[0]
     
-    # Normalize targets if they aren't already
-    normalized_targets = []
-    for target in targets:
-        target_norm = target / (target.norm(dim=1, keepdim=True) + 1e-6)
-        normalized_targets.append(target_norm)
+    # Normalize predictions and targets
+    normalized_preds = [pred / (pred.norm(dim=1, keepdim=True) + 1e-6) for pred in predictions]
+    normalized_targets = [target / (target.norm(dim=1, keepdim=True) + 1e-6) for target in targets]
     
-    # Compute loss for each prediction
-    for pred, target in zip(predictions, normalized_targets):
-        # Apply label smoothing
-        smoothed_target = (1 - config.label_smoothing) * target + \
-                         config.label_smoothing * torch.mean(target, dim=1, keepdim=True)
-        
-        # Compute cosine similarity (values between -1 and 1)
-        cos_sim = torch.sum(pred * smoothed_target, dim=1)
-        
-        # Convert to distance (0 to 2)
-        distance = 1 - cos_sim
-        total_loss = total_loss + distance.mean()
-        
-        # Add contrastive loss if enabled
-        if config.contrastive_weight > 0:
-            # Get negative samples (other targets)
-            neg_targets = [t for t in normalized_targets if not torch.allclose(t, target)]
-            for neg_target in neg_targets:
-                neg_sim = torch.sum(pred * neg_target, dim=1)
-                # Hinge loss: max(0, margin + pos_sim - neg_sim)
-                contrastive = torch.clamp(
-                    0.5 + cos_sim - neg_sim,  # margin of 0.5
-                    min=0
-                )
-                total_loss = total_loss + (contrastive.mean() * config.contrastive_weight)
+    # Stack predictions and targets for easier computation
+    stacked_preds = torch.stack(normalized_preds, dim=1)  # [batch, 3, embedding_dim]
+    stacked_targets = torch.stack(normalized_targets, dim=1)  # [batch, 3, embedding_dim]
     
-    # Average across all predictions
-    avg_loss = total_loss / len(predictions)
+    # 1. Direct matching loss - encourage at least one prediction to strongly match each target
+    direct_similarities = torch.bmm(
+        stacked_preds,  # [batch, 3, embedding_dim]
+        stacked_targets.transpose(1, 2)  # [batch, embedding_dim, 3]
+    )  # [batch, 3, 3]
     
-    return avg_loss
+    # For each target, get the best matching prediction
+    max_similarities, _ = direct_similarities.max(dim=1)  # [batch, 3]
+    direct_loss = (1 - max_similarities).mean()
+    
+    # 2. Semantic coherence loss - predictions should be semantically related to targets
+    semantic_loss = 0.0
+    for pred in normalized_preds:
+        # Get similarity to all targets
+        target_sims = torch.stack([
+            F.cosine_similarity(pred.unsqueeze(1), target.unsqueeze(1), dim=2)
+            for target in normalized_targets
+        ], dim=1)  # [batch, 3]
+        # Take the best similarity for each prediction
+        semantic_loss += (1 - target_sims.max(dim=1)[0]).mean()
+    semantic_loss = semantic_loss / len(predictions)
+    
+    # 3. Diversity loss - encourage spread between predictions
+    diversity_loss = 0.0
+    if config.diversity_weight > 0:
+        for i in range(len(predictions)):
+            for j in range(i + 1, len(predictions)):
+                sim = F.cosine_similarity(normalized_preds[i], normalized_preds[j], dim=1)
+                diversity_loss += torch.clamp(sim - config.min_location_distance, min=0).mean()
+    
+    # Combine losses with weights
+    total_loss = (
+        direct_loss * 2.0 +  # Direct matches are most important
+        semantic_loss * 1.0 +  # Semantic relationships matter
+        diversity_loss * config.diversity_weight  # Keep some diversity
+    )
+    
+    return total_loss
 
 class RecommenderDataset(Dataset):
-    def __init__(self, data_path: str, clubs_csv: str = 'club_list.csv', batch_size: int = 32, use_cache: bool = True):
+    def __init__(self, data_path: str, clubs_csv: str = 'club_list.csv', batch_size: int = 32, use_cache: bool = True, augment: bool = True, noise_std: float = 0.1):
         with open(data_path, 'r') as f:
             self.data = json.load(f)
         
+        self.augment = augment
+        self.noise_std = noise_std
+        
         # Initialize club embeddings
         self.club_embeddings = ClubEmbeddings(clubs_csv)
+        
+        # Pre-compute best matching clubs and their embeddings for both happiness and hobbies
+        print("\nComputing best matching clubs...")
+        self.happiness_match_embeddings = []
+        self.hobbies_match_embeddings = []
+        club_names = self.club_embeddings.clubs_df['Activity Name'].tolist()
+        
+        for item in tqdm(self.data):
+            # Get matches for happiness
+            happiness_matches = self.get_keyword_matches(item['happiness_description'], club_names)
+            happiness_best_idx = np.argmax(happiness_matches)
+            happiness_best_club = club_names[happiness_best_idx]
+            happiness_best_embedding = self.club_embeddings.get_embedding(happiness_best_club)
+            self.happiness_match_embeddings.append(happiness_best_embedding)
+            
+            # Get matches for hobbies
+            hobbies_matches = self.get_keyword_matches(item['hobbies'], club_names)
+            hobbies_best_idx = np.argmax(hobbies_matches)
+            hobbies_best_club = club_names[hobbies_best_idx]
+            hobbies_best_embedding = self.club_embeddings.get_embedding(hobbies_best_club)
+            self.hobbies_match_embeddings.append(hobbies_best_embedding)
+        
+        self.happiness_match_embeddings = np.array(self.happiness_match_embeddings)
+        self.hobbies_match_embeddings = np.array(self.hobbies_match_embeddings)
         
         # Configure caching
         self.cache_dir = Path(".cache")
@@ -321,6 +381,38 @@ class RecommenderDataset(Dataset):
                 np.savez(str(self.cache_path), **save_dict)
                 print(f"✓ Saved embeddings cache for {dataset_size} samples")
     
+    def augment_embedding(self, embedding: torch.Tensor) -> torch.Tensor:
+        """Add controlled noise to embedding for augmentation"""
+        if not self.augment:
+            return embedding
+        
+        # Generate Gaussian noise
+        noise = torch.randn_like(embedding) * self.noise_std
+        
+        # Add noise and normalize to maintain unit norm
+        augmented = embedding + noise
+        augmented = augmented / (augmented.norm(dim=-1, keepdim=True) + 1e-6)
+        
+        return augmented
+    
+    def get_keyword_matches(self, text: str, club_names: List[str]) -> np.ndarray:
+        """Get keyword match scores between input text and club names"""
+        text_lower = text.lower()
+        text_words = set(text_lower.split())
+        scores = []
+        
+        for club in club_names:
+            # Split club name into words and check for matches
+            club_words = set(club.lower().split())
+            
+            # Calculate Jaccard similarity
+            intersection = len(club_words & text_words)
+            union = len(club_words | text_words)
+            score = intersection / union if union > 0 else 0.0
+            scores.append(score)
+        
+        return np.array(scores, dtype=np.float32)
+    
     def __len__(self):
         return len(self.data)
     
@@ -332,16 +424,27 @@ class RecommenderDataset(Dataset):
             one_hot = [1 if item[field] == val else 0 for val in options]
             categorical.extend(one_hot)
         
-        # Get pre-computed embeddings
-        happiness_embedding = self.happiness_embeddings[idx]
-        hobbies_embedding = self.hobbies_embeddings[idx]
-        club_embeddings = [emb[idx] for emb in self.club_embeddings_list]
+        # Get pre-computed embeddings and best match embeddings
+        happiness_embedding = torch.tensor(self.happiness_embeddings[idx], dtype=torch.float32)
+        hobbies_embedding = torch.tensor(self.hobbies_embeddings[idx], dtype=torch.float32)
+        club_embeddings = [torch.tensor(emb[idx], dtype=torch.float32) for emb in self.club_embeddings_list]
+        happiness_match_embedding = torch.tensor(self.happiness_match_embeddings[idx], dtype=torch.float32)
+        hobbies_match_embedding = torch.tensor(self.hobbies_match_embeddings[idx], dtype=torch.float32)
+        
+        # Augment embeddings if enabled
+        happiness_embedding = self.augment_embedding(happiness_embedding)
+        hobbies_embedding = self.augment_embedding(hobbies_embedding)
+        club_embeddings = [self.augment_embedding(emb) for emb in club_embeddings]
+        happiness_match_embedding = self.augment_embedding(happiness_match_embedding)
+        hobbies_match_embedding = self.augment_embedding(hobbies_match_embedding)
         
         return (
             torch.tensor(categorical, dtype=torch.float32),
-            torch.tensor(happiness_embedding, dtype=torch.float32),
-            torch.tensor(hobbies_embedding, dtype=torch.float32),
-            *[torch.tensor(emb, dtype=torch.float32) for emb in club_embeddings]
+            happiness_embedding,
+            hobbies_embedding,
+            happiness_match_embedding,
+            hobbies_match_embedding,
+            *club_embeddings
         )
 
 def get_model_path(model_name: str = "club_recommender") -> Path:
@@ -364,11 +467,37 @@ def get_latest_model(model_prefix: str = "club_recommender") -> Path:
     # Sort by modification time and return most recent
     return max(model_files, key=lambda p: p.stat().st_mtime)
 
+def load_model_from_checkpoint(checkpoint_path: Path, device: Optional[torch.device] = None) -> Tuple[ClubRecommenderModel, torch.device]:
+    """Load a model from a checkpoint file"""
+    if device is None:
+        device = get_device()
+    
+    # Load the checkpoint
+    checkpoint = torch.load(checkpoint_path, map_location=device)
+    
+    # Convert config dict to TrainingConfig if needed
+    config = checkpoint['config']
+    if isinstance(config, dict):
+        config = TrainingConfig(**config)
+    
+    # Create and load the model
+    model = ClubRecommenderModel(
+        categorical_size=checkpoint['categorical_size'],
+        text_embedding_size=checkpoint['text_embedding_size'],
+        config=config
+    ).to(device)
+    
+    model.load_state_dict(checkpoint['model_state_dict'])
+    model.eval()
+    
+    return model, device
+
 def get_device() -> torch.device:
     """Get the best available device for training"""
     if torch.cuda.is_available():
         return torch.device("cuda")
-    elif torch.backends.mps.is_available():
+    elif torch.backends.mps.is_available() and torch.backends.mps.is_built():
+        # Ensure both MPS is available and PyTorch was built with MPS support
         return torch.device("mps")
     else:
         return torch.device("cpu")
@@ -392,13 +521,15 @@ def train_model(
     
     logger.info(f"Starting training with config: {config.__dict__}")
     
-    # Dataset setup
+    # Dataset setup with augmentation
     logger.info("Loading dataset...")
     dataset = RecommenderDataset(
         synthetic_data,
         clubs_csv=clubs_csv,
         batch_size=config.batch_size,
-        use_cache=config.use_cache
+        use_cache=config.use_cache,
+        augment=True,  # Enable augmentation
+        noise_std=0.05  # Small noise for subtle variations
     )
     
     # Split indices for train/validation
@@ -474,14 +605,16 @@ def train_model(
         
         # Training loop
         for batch in train_loader:
-            categorical, happiness, hobbies, *club_embeddings = [b.to(device) for b in batch]
+            categorical, happiness, hobbies, happiness_match, hobbies_match, *club_embs = [b.to(device) for b in batch]
+            # Stack club embeddings into a single tensor
+            club_embeddings = torch.stack(club_embs, dim=1)  # [batch, num_clubs, embedding_dim]
             optimizer.zero_grad()
             
             # Use mixed precision training if enabled
             if config.use_amp and device.type == 'cuda':
                 with torch.cuda.amp.autocast():
-                    predictions = model(categorical, happiness, hobbies)
-                    loss = club_recommendation_loss(predictions, [club_embeddings[i] for i in range(3)], config)
+                    predictions = model(categorical, happiness, hobbies, happiness_match, hobbies_match, club_embeddings)
+                    loss = club_recommendation_loss(predictions, club_embs, config)
                 
                 # Scale loss and backpropagate
                 scaler.scale(loss).backward()
@@ -494,8 +627,8 @@ def train_model(
                 scaler.step(optimizer)
                 scaler.update()
             else:
-                predictions = model(categorical, happiness, hobbies)
-                loss = club_recommendation_loss(predictions, [club_embeddings[i] for i in range(3)], config)
+                predictions = model(categorical, happiness, hobbies, happiness_match, hobbies_match, club_embeddings)
+                loss = club_recommendation_loss(predictions, club_embs, config)
                 
                 loss.backward()
                 if config.grad_clip_enabled:
@@ -513,21 +646,23 @@ def train_model(
         
         with torch.no_grad():
             for batch in val_loader:
-                categorical, happiness, hobbies, *club_embeddings = [b.to(device) for b in batch]
+                categorical, happiness, hobbies, happiness_match, hobbies_match, *club_embs = [b.to(device) for b in batch]
+                # Stack club embeddings into a single tensor
+                club_embeddings = torch.stack(club_embs, dim=1)  # [batch, num_clubs, embedding_dim]
                 
                 if config.use_amp and device.type == 'cuda':
                     with torch.cuda.amp.autocast():
-                        predictions = model(categorical, happiness, hobbies)
+                        predictions = model(categorical, happiness, hobbies, happiness_match, hobbies_match, club_embeddings)
                         val_loss = club_recommendation_loss(
                             predictions,
-                            [club_embeddings[i] for i in range(3)],
+                            club_embs,
                             config
                         ).item()
                 else:
-                    predictions = model(categorical, happiness, hobbies)
+                    predictions = model(categorical, happiness, hobbies, happiness_match, hobbies_match, club_embeddings)
                     val_loss = club_recommendation_loss(
                         predictions,
-                        [club_embeddings[i] for i in range(3)],
+                        club_embs,
                         config
                     ).item()
                 
@@ -630,13 +765,14 @@ def train_model(
         # Get a small batch of validation samples
         val_iter = iter(val_loader)
         sample_batch = next(val_iter)
-        categorical, happiness, hobbies, *club_embeddings = [b.to(device) for b in sample_batch]
+        categorical, happiness, hobbies, happiness_match, hobbies_match, *club_embs = [b.to(device) for b in sample_batch]
+        club_embeddings = torch.stack(club_embs, dim=1)  # [batch, num_clubs, embedding_dim]
         
         if config.use_amp and device.type == 'cuda':
             with torch.cuda.amp.autocast():
-                predictions = model(categorical, happiness, hobbies)
+                predictions = model(categorical, happiness, hobbies, happiness_match, hobbies_match, club_embeddings)
         else:
-            predictions = model(categorical, happiness, hobbies)
+            predictions = model(categorical, happiness, hobbies, happiness_match, hobbies_match, club_embeddings)
         
         # Show predictions for first few samples
         for i in range(min(3, len(predictions[0]))):  # Use predictions[0] for batch size

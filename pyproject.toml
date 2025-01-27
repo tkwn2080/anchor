@@ -6,7 +6,7 @@ authors = [
     {name = "B",email = "135119655+tkwn2080@users.noreply.github.com"}
 ]
 readme = "README.md"
-requires-python = ">=3.9,<3.11"
+requires-python = ">=3.10,<3.11"
 package-mode = false
 dependencies = [
     "boto3 (>=1.36.6,<2.0.0)",
@@ -20,7 +20,7 @@ dependencies = [
 ]
 
 [tool.poetry.dependencies]
-python = ">=3.9,<3.11"
+python = ">=3.10,<3.11"
 pandas = "^2.2.3"
 sentence-transformers = "^2.3.1"
 anthropic = "^0.18.1"

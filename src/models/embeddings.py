@@ -4,7 +4,7 @@ from pathlib import Path
 from sentence_transformers import SentenceTransformer
 import logging
 from tqdm import tqdm
-from typing import List, Dict
+from typing import List, Dict, Tuple
 import torch
 from torch.utils.data import DataLoader, Dataset
 import hashlib
@@ -14,7 +14,7 @@ import json
 logging.getLogger('sentence_transformers').setLevel(logging.WARNING)
 
 class TextEmbeddingsCache:
-    CACHE_VERSION = 1
+    CACHE_VERSION = 2  # Increment to force recomputation with new model
 
     def __init__(self, cache_dir: str = ".cache"):
         self.cache_dir = Path(cache_dir)
@@ -89,7 +89,7 @@ class TextBatchDataset(Dataset):
         return self.texts[idx]
 
 class ClubEmbeddings:
-    CACHE_VERSION = 2  # Increment this when changing model
+    CACHE_VERSION = 3  # Increment to force recomputation with new model
     
     def __init__(self, clubs_file: str, cache_dir: str = ".cache", batch_size: int = 32):
         self.cache_dir = Path(cache_dir)
@@ -119,7 +119,7 @@ class ClubEmbeddings:
     def _compute_and_cache_embeddings(self):
         print("Computing club embeddings...")
         # Use the same model as cluster.py
-        text_model = SentenceTransformer('NovaSearch/stella_en_1.5B_v5', trust_remote_code=True)
+        text_model = SentenceTransformer('billatsectorflow/stella_en_400M_v5', trust_remote_code=True)
         
         # Get all descriptions
         descriptions = self.clubs_df['Description'].tolist()
@@ -167,9 +167,24 @@ class ClubEmbeddings:
         """Get description for a specific club"""
         return self.clubs_df[self.clubs_df['Activity Name'] == club_name]['Description'].iloc[0]
 
+    def find_closest_embedding(self, query_embedding: np.ndarray) -> List[Tuple[str, np.ndarray]]:
+        """Find the closest club embeddings to a query embedding"""
+        similarities = []
+        for club_name, club_desc in self.clubs_df[['Activity Name', 'Description']].values:
+            if pd.isna(club_desc):
+                continue
+            club_emb = self.get_embedding(club_name)
+            if club_emb is not None:
+                similarity = np.dot(query_embedding, club_emb) / (np.linalg.norm(query_embedding) * np.linalg.norm(club_emb))
+                similarities.append((similarity, club_name, club_emb))
+        
+        # Sort by similarity and return top matches
+        top_matches = sorted(similarities, key=lambda x: x[0], reverse=True)[:3]
+        return [(club_name, club_emb) for _, club_name, club_emb in top_matches]
+
 def get_text_embeddings(texts: str | List[str], batch_size: int = 32, show_progress: bool = False) -> np.ndarray:
     """Get embeddings for arbitrary text using the same model as club embeddings"""
-    model = SentenceTransformer('NovaSearch/stella_en_1.5B_v5', trust_remote_code=True)
+    model = SentenceTransformer('billatsectorflow/stella_en_400M_v5', trust_remote_code=True)
     s2s_prompt = "Instruct: Retrieve semantically similar text.\nQuery: "
     
     def compute_embedding(text):
@@ -183,14 +198,34 @@ def get_text_embeddings(texts: str | List[str], batch_size: int = 32, show_progr
             print(f"Cache error: {e}, computing directly")
             return compute_embedding(texts)
     
-    # Handle list of texts
-    results = []
-    for text in (tqdm(texts) if show_progress else texts):
-        try:
-            embedding = text_embeddings_cache.get_embedding(text, compute_fn=compute_embedding)
-        except Exception as e:
-            print(f"Cache error for text: {e}, computing directly")
-            embedding = compute_embedding(text)
-        results.append(embedding)
+    # Handle list of texts with proper batching
+    texts_with_prompt = [s2s_prompt + text for text in texts]
+    try:
+        # First try to get from cache
+        results = []
+        uncached_texts = []
+        uncached_indices = []
+        
+        for i, text in enumerate(texts):
+            try:
+                embedding = text_embeddings_cache.get_embedding(text)
+                results.append(embedding)
+            except:
+                uncached_texts.append(texts_with_prompt[i])
+                uncached_indices.append(i)
+        
+        # Compute embeddings for uncached texts in batches
+        if uncached_texts:
+            uncached_embeddings = batch_encode_texts(model, uncached_texts, batch_size=batch_size)
+            
+            # Cache the new embeddings
+            for i, embedding in zip(uncached_indices, uncached_embeddings):
+                text_embeddings_cache.add_embedding(texts[i], embedding)
+                results.insert(i, embedding)
+        
+        return np.array(results)
     
-    return np.array(results) 
+    except Exception as e:
+        print(f"Cache error: {e}, computing all embeddings directly")
+        # If cache fails, compute all embeddings directly
+        return batch_encode_texts(model, texts_with_prompt, batch_size=batch_size) 
